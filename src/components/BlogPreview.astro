@@ -1,0 +1,266 @@
+---
+import { getCollection } from "astro:content";
+
+// Show latest 3 posts on homepage
+const allPosts = (await getCollection("blog")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+const latestPosts = allPosts.slice(0, 3);
+---
+
+<section class="section-alt" id="blog-preview">
+  <div class="container">
+    <h2 class="section-heading reveal">
+      <span class="accent-underline">Blog</span>
+    </h2>
+    <p class="section-subheading reveal">
+      Thoughts on engineering, architecture, and building at scale
+    </p>
+
+    <div class="blog-grid">
+      {
+        latestPosts.map((post) => (
+          <a
+            href={`/blog/${post.id}`}
+            class="blog-card glass-card reveal"
+            id={`blog-card-${post.id}`}
+          >
+            <div
+              class="blog-card-cover"
+              style={`background: ${post.data.coverGradient};`}
+            >
+              <div class="blog-card-cover-content">
+                <span class="blog-card-date">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <>
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                      <line x1="16" y1="2" x2="16" y2="6" />
+                      <line x1="8" y1="2" x2="8" y2="6" />
+                      <line x1="3" y1="10" x2="21" y2="10" />
+                    </>
+                  </svg>
+                  {post.data.date.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+                </span>
+              </div>
+            </div>
+            <div class="blog-card-body">
+              <h3 class="blog-card-title">{post.data.title}</h3>
+              <p class="blog-card-excerpt">{post.data.excerpt}</p>
+              <div class="blog-card-tags">
+                {post.data.tags.map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <span class="blog-card-read-more">
+                Read Article
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <>
+                    <line x1="5" y1="12" x2="19" y2="12" />
+                    <polyline points="12 5 19 12 12 19" />
+                  </>
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="blog-all-link reveal">
+      <a href="/blog" class="btn-outline" id="view-all-posts">
+        View All Posts
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          ><line x1="5" y1="12" x2="19" y2="12"></line><polyline
+            points="12 5 19 12 12 19"></polyline></svg
+        >
+      </a>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  #blog-preview .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: var(--space-6);
+    max-width: 1080px;
+    margin-inline: auto;
+  }
+
+  #blog-preview .blog-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      box-shadow var(--transition-base);
+    cursor: pointer;
+  }
+
+  #blog-preview .blog-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--color-accent);
+    box-shadow: 0 12px 40px rgba(45, 212, 191, 0.08);
+  }
+
+  #blog-preview .blog-card-cover {
+    height: 140px;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-4);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #blog-preview .blog-card-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+  }
+
+  #blog-preview .blog-card-cover-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  #blog-preview .blog-card-date {
+    font-size: var(--font-size-xs);
+    color: rgba(255, 255, 255, 0.8);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  #blog-preview .blog-card-body {
+    padding: var(--space-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+  }
+
+  #blog-preview .blog-card-title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+  }
+
+  #blog-preview .blog-card:hover .blog-card-title {
+    color: var(--color-accent);
+  }
+
+  #blog-preview .blog-card-excerpt {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  #blog-preview .blog-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  #blog-preview .blog-card-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    margin-top: auto;
+    padding-top: var(--space-2);
+    transition: gap var(--transition-fast);
+  }
+
+  #blog-preview .blog-card:hover .blog-card-read-more {
+    gap: var(--space-3);
+  }
+
+  #blog-preview .blog-all-link {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-10);
+  }
+
+  #blog-preview .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-full);
+    color: var(--color-text-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      color var(--transition-fast),
+      gap var(--transition-fast);
+  }
+
+  #blog-preview .btn-outline:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    gap: var(--space-3);
+  }
+
+  @media (max-width: 480px) {
+    #blog-preview .blog-grid {
+      grid-template-columns: 1fr;
+    }
+
+    #blog-preview .blog-card-cover {
+      height: 100px;
+    }
+  }
+</style>

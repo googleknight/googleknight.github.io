@@ -1,0 +1,379 @@
+/*
+ * ══════════════════════════════════════
+ *  DESIGN SYSTEM — Custom Properties
+ * ══════════════════════════════════════
+ *
+ *  To change the site's look-and-feel, edit ONLY the variables below.
+ *  Colors, fonts, spacing, radii, and transitions are all tokenised.
+ */
+
+/* ── Fonts (loaded in Layout.astro <head>) ── */
+:root {
+  --font-sans:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --font-size-6xl: 3.75rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.15;
+  --line-height-normal: 1.6;
+}
+
+/* ── Dark Theme (default) ── */
+:root {
+  --color-bg-primary: #0a0f1c;
+  --color-bg-secondary: #0f1419;
+  --color-bg-card: rgba(15, 23, 42, 0.6);
+  --color-bg-card-hover: rgba(20, 30, 50, 0.8);
+  --color-bg-nav: rgba(10, 15, 28, 0.85);
+
+  --color-text-primary: #f0f4f8;
+  --color-text-secondary: #94a3b8;
+  --color-text-muted: #64748b;
+
+  --color-accent: #2dd4bf;
+  --color-accent-hover: #14b8a6;
+  --color-accent-subtle: rgba(45, 212, 191, 0.1);
+  --color-accent-glow: rgba(45, 212, 191, 0.25);
+
+  --color-border: rgba(148, 163, 184, 0.1);
+  --color-border-hover: rgba(45, 212, 191, 0.3);
+
+  --color-gradient-start: #2dd4bf;
+  --color-gradient-end: #3b82f6;
+
+  --color-tag-bg: rgba(45, 212, 191, 0.1);
+  --color-tag-text: #2dd4bf;
+  --color-tag-border: rgba(45, 212, 191, 0.2);
+}
+
+/* ── Light Theme ── */
+:root[data-theme="light"] {
+  --color-bg-primary: #f8fafc;
+  --color-bg-secondary: #f1f5f9;
+  --color-bg-card: rgba(255, 255, 255, 0.8);
+  --color-bg-card-hover: rgba(255, 255, 255, 0.95);
+  --color-bg-nav: rgba(248, 250, 252, 0.9);
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94a3b8;
+
+  --color-accent: #0d9488;
+  --color-accent-hover: #0f766e;
+  --color-accent-subtle: rgba(13, 148, 136, 0.08);
+  --color-accent-glow: rgba(13, 148, 136, 0.15);
+
+  --color-border: rgba(15, 23, 42, 0.08);
+  --color-border-hover: rgba(13, 148, 136, 0.3);
+
+  --color-gradient-start: #0d9488;
+  --color-gradient-end: #2563eb;
+
+  --color-tag-bg: rgba(13, 148, 136, 0.08);
+  --color-tag-text: #0d9488;
+  --color-tag-border: rgba(13, 148, 136, 0.2);
+}
+
+/* ── Spacing ── */
+:root {
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+}
+
+/* ── Layout ── */
+:root {
+  --max-width: 1100px;
+  --nav-height: 72px;
+  --border-radius-sm: 6px;
+  --border-radius-md: 10px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  --border-radius-full: 9999px;
+}
+
+/* ── Transitions ── */
+:root {
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+  --transition-slow: 0.4s ease;
+  --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Shadows ── */
+:root {
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px var(--color-accent-glow);
+}
+
+/*
+ * ══════════════════════════════════════
+ *  RESET & BASE STYLES
+ * ══════════════════════════════════════
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: var(--nav-height);
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+/*
+ * ══════════════════════════════════════
+ *  UTILITY CLASSES
+ * ══════════════════════════════════════
+ */
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-6);
+}
+
+.section {
+  padding-block: var(--space-24);
+}
+
+.section-alt {
+  padding-block: var(--space-24);
+  background-color: var(--color-bg-secondary);
+}
+
+.section-heading {
+  font-size: var(--font-size-4xl);
+  margin-bottom: var(--space-2);
+  text-align: center;
+}
+
+.section-subheading {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+  margin-bottom: var(--space-16);
+  font-weight: var(--font-weight-normal);
+}
+
+.accent-underline {
+  display: inline-block;
+  position: relative;
+}
+
+.accent-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  border-radius: var(--border-radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--color-gradient-start),
+    var(--color-gradient-end)
+  );
+}
+
+/* ── Glassmorphism Card ── */
+.glass-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition:
+    border-color var(--transition-base),
+    background-color var(--transition-base),
+    transform var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.glass-card:hover {
+  border-color: var(--color-border-hover);
+  background: var(--color-bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--border-radius-full);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-gradient-start),
+    var(--color-gradient-end)
+  );
+  color: #fff;
+}
+
+.btn-primary:hover {
+  box-shadow: var(--shadow-glow);
+  color: #fff;
+}
+
+.btn-outline {
+  border: 1px solid var(--color-border-hover);
+  color: var(--color-accent);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent);
+}
+
+/* ── Tags / Badges ── */
+.tag {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--border-radius-full);
+  background: var(--color-tag-bg);
+  color: var(--color-tag-text);
+  border: 1px solid var(--color-tag-border);
+}
+
+/* ── Scroll reveal animation ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Screen-reader only ── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Responsive helpers ── */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: var(--font-size-3xl);
+  }
+
+  .section,
+  .section-alt {
+    padding-block: var(--space-16);
+  }
+}

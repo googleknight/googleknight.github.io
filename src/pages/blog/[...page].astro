@@ -1,0 +1,435 @@
+---
+import type { GetStaticPaths } from "astro";
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection } from "astro:content";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = (await getCollection("blog")).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  return paginate(posts, { pageSize: 5 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout
+  title={page.currentPage > 1 ? `Blog — Page ${page.currentPage}` : "Blog"}
+  description="Articles on software engineering, architecture, and building systems at scale."
+>
+  <Navbar />
+  <main class="section blog-page">
+    <div class="container">
+      <h1 class="section-heading">
+        <span class="accent-underline">Blog</span>
+      </h1>
+      <p class="section-subheading">
+        Thoughts on engineering, architecture, and building at scale
+      </p>
+
+      <div class="blog-list">
+        {
+          page.data.map((post) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="blog-list-card glass-card"
+              id={`blog-list-${post.id}`}
+            >
+              <div
+                class="blog-list-cover"
+                style={`background: ${post.data.coverGradient};`}
+              >
+                <div class="blog-list-cover-overlay" />
+              </div>
+              <div class="blog-list-content">
+                <div class="blog-list-meta">
+                  <span class="blog-list-date">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <rect
+                          x="3"
+                          y="4"
+                          width="18"
+                          height="18"
+                          rx="2"
+                          ry="2"
+                        />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </>
+                    </svg>
+                    {post.data.date.toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+                <h2 class="blog-list-title">{post.data.title}</h2>
+                <p class="blog-list-excerpt">{post.data.excerpt}</p>
+                <div class="blog-list-tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="blog-list-read-more">
+                  Read Article
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <>
+                      <line x1="5" y1="12" x2="19" y2="12" />
+                      <polyline points="12 5 19 12 12 19" />
+                    </>
+                  </svg>
+                </span>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      {/* Pagination controls */}
+      {
+        page.lastPage > 1 && (
+          <nav class="blog-pagination" aria-label="Blog pagination">
+            {page.url.prev ? (
+              <a
+                href={page.url.prev}
+                class="pagination-link pagination-prev"
+                id="pagination-prev"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                Newer
+              </a>
+            ) : (
+              <span class="pagination-link pagination-disabled">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="19" y1="12" x2="5" y2="12" />
+                  <polyline points="12 19 5 12 12 5" />
+                </svg>
+                Newer
+              </span>
+            )}
+
+            <div class="pagination-pages">
+              {Array.from({ length: page.lastPage }, (_, i) => i + 1).map(
+                (num) => (
+                  <a
+                    href={num === 1 ? "/blog" : `/blog/${num}`}
+                    class={`pagination-page ${num === page.currentPage ? "pagination-active" : ""}`}
+                    aria-current={num === page.currentPage ? "page" : undefined}
+                  >
+                    {num}
+                  </a>
+                ),
+              )}
+            </div>
+
+            {page.url.next ? (
+              <a
+                href={page.url.next}
+                class="pagination-link pagination-next"
+                id="pagination-next"
+              >
+                Older
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </a>
+            ) : (
+              <span class="pagination-link pagination-disabled">
+                Older
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
+            )}
+          </nav>
+        )
+      }
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .blog-page {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    min-height: 60vh;
+  }
+
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: 800px;
+    margin-inline: auto;
+    margin-top: var(--space-8);
+  }
+
+  .blog-list-card {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    text-decoration: none;
+    color: inherit;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      box-shadow var(--transition-base);
+    cursor: pointer;
+  }
+
+  .blog-list-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+    box-shadow: 0 12px 40px rgba(45, 212, 191, 0.08);
+  }
+
+  .blog-list-cover {
+    position: relative;
+    min-height: 180px;
+  }
+
+  .blog-list-cover-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      transparent 60%,
+      var(--color-bg-card) 100%
+    );
+  }
+
+  .blog-list-content {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .blog-list-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+
+  .blog-list-date {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .blog-list-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.35;
+    color: var(--color-text-primary);
+    transition: color var(--transition-fast);
+  }
+
+  .blog-list-card:hover .blog-list-title {
+    color: var(--color-accent);
+  }
+
+  .blog-list-excerpt {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-list-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .blog-list-read-more {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    margin-top: auto;
+    transition: gap var(--transition-fast);
+  }
+
+  .blog-list-card:hover .blog-list-read-more {
+    gap: var(--space-3);
+  }
+
+  /* ── Pagination ── */
+  .blog-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-12);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pagination-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    transition:
+      border-color var(--transition-fast),
+      color var(--transition-fast),
+      background var(--transition-fast);
+  }
+
+  .pagination-link:hover:not(.pagination-disabled) {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .pagination-disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .pagination-pages {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .pagination-page {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--border-radius-full);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition:
+      background var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  .pagination-page:hover {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent);
+  }
+
+  .pagination-active {
+    background: var(--color-accent);
+    color: var(--color-bg);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .pagination-active:hover {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  @media (max-width: 640px) {
+    .blog-list-card {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-list-cover {
+      min-height: 120px;
+    }
+
+    .blog-list-cover-overlay {
+      background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        var(--color-bg-card) 100%
+      );
+    }
+
+    .pagination-link {
+      padding: var(--space-2) var(--space-3);
+      font-size: var(--font-size-xs);
+    }
+  }
+</style>

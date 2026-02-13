@@ -1,0 +1,212 @@
+---
+import { Image } from "astro:assets";
+import shubhamImage from "../assets/shubham.jpg";
+
+const startDate = new Date("2018-01-10");
+const today = new Date();
+const yearsDiff = today.getFullYear() - startDate.getFullYear();
+const monthDiff = today.getMonth() - startDate.getMonth();
+const totalYears =
+  monthDiff < 0 || (monthDiff === 0 && today.getDate() < startDate.getDate())
+    ? yearsDiff - 1
+    : yearsDiff;
+
+const stats = [
+  { value: `${totalYears}+`, label: "Years Experience" },
+  { value: "50M+", label: "Users Impacted" },
+  { value: "6+", label: "Product Domains" },
+];
+---
+
+<section class="section-alt" id="about">
+  <div class="container">
+    <h2 class="section-heading reveal">
+      <span class="accent-underline">About Me</span>
+    </h2>
+    <p class="section-subheading reveal">A little bit about my journey</p>
+
+    <div class="about-grid">
+      <div class="about-image-wrapper reveal">
+        <Image
+          src={shubhamImage}
+          alt="Shubham Mathur — Senior Software Engineer"
+          class="about-image"
+          width={800}
+          height={1000}
+          quality="max"
+        />
+      </div>
+
+      <div class="about-content reveal">
+        <div class="about-text">
+          <p>
+            I'm a Senior Software Engineer who loves building resilient,
+            high-scale distributed systems. For over <strong
+              >{totalYears} years</strong
+            >, I've been deep in the trenches architecting identity systems,
+            compliance frameworks, and microservices that need to perform under
+            pressure.
+          </p>
+          <p>
+            Currently, I'm at <strong>Vimeo</strong> leading initiatives in secure
+            identity and data integrity. It's rewarding work—ensuring 4.5M+ users
+            have a safe experience mostly by meeting global regulatory standards like
+            the UK Online Safety Act.
+          </p>
+          <p>
+            Before this, I spent nearly six years at <strong
+              >McKinsey &amp; Company</strong
+            >, where I helped Fortune 500 clients in <strong
+              >Banking, Insurance, Healthcare, and Telecom</strong
+            >
+            turn complex business problems into working technical solutions.
+          </p>
+          <p>
+            Outside of engineering, I love traveling, exploring different
+            destinations, and learning new things. Recently, I've been trying my
+            hand at cooking, jogging, HIIT, and Yoga (a mix of core and strength
+            exercises at home). I also enjoy playing and building with AI,
+            reading, and constantly improving my fundamentals.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      {
+        stats.map((stat) => (
+          <div class="stat-card glass-card reveal">
+            <span class="stat-value">{stat.value}</span>
+            <span class="stat-label">{stat.label}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-12);
+    align-items: center;
+    margin-bottom: var(--space-12);
+  }
+
+  .about-image-wrapper {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .about-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top center;
+    border-radius: var(--border-radius-2xl);
+    border: 2px solid var(--color-border);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.3),
+      0 0 0 1px rgba(45, 212, 191, 0.08);
+    transform: rotate(-2deg);
+    transition:
+      transform var(--transition-slowest) var(--ease-out),
+      box-shadow var(--transition-base);
+  }
+
+  .about-image:hover {
+    transform: rotate(0deg) scale(1.02);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.35),
+      0 0 0 2px rgba(45, 212, 191, 0.15);
+  }
+
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .about-text p {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-lg);
+    line-height: 1.75;
+  }
+
+  .about-text strong {
+    color: var(--color-text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .stats-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-6);
+    max-width: 760px;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-6) var(--space-4);
+    text-align: center;
+  }
+
+  .stat-value {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-start),
+      var(--color-gradient-end)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .stat-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+
+  @media (max-width: 992px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+      text-align: center;
+    }
+
+    .about-image {
+      transform: rotate(0deg);
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .about-text {
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+      max-width: 280px;
+    }
+  }
+</style>

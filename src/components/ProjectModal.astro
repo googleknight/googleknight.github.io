@@ -1,0 +1,371 @@
+---
+/**
+ * ProjectModal.astro
+ * A glassmorphic modal overlay for displaying detailed project case studies.
+ * Opened via JS from the project card "View Details" button.
+ * Renders all projects with details into hidden modal panels.
+ */
+import { projects } from '../data/projects';
+
+const projectsWithDetails = projects.filter((p) => p.details);
+---
+
+<!-- Modal backdrop & container (hidden by default) -->
+<div class="modal-overlay" id="project-modal-overlay" aria-hidden="true">
+  <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <button class="modal-close" id="modal-close-btn" aria-label="Close modal">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    {projectsWithDetails.map((project, idx) => (
+      <div class="modal-panel" data-modal-project={project.title} style="display: none;">
+        <!-- Header -->
+        <div class="modal-header">
+          <div class="modal-meta">
+            {project.company && <span class="modal-company">{project.company}</span>}
+            {project.period && <span class="modal-period">{project.period}</span>}
+          </div>
+          <h2 class="modal-title" id={`modal-title-${idx}`}>{project.title}</h2>
+          <div class="modal-tags">
+            {project.tags.map((t) => <span class="tag">{t}</span>)}
+          </div>
+        </div>
+
+        <!-- Body -->
+        <div class="modal-body">
+          {/* Role */}
+          <div class="modal-section">
+            <div class="modal-section-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div>
+              <h3 class="modal-section-label">Role</h3>
+              <p class="modal-section-text">{project.details!.role}</p>
+            </div>
+          </div>
+
+          {/* Challenge */}
+          <div class="modal-section">
+            <div class="modal-section-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <h3 class="modal-section-label">The Challenge</h3>
+              <p class="modal-section-text">{project.details!.challenge}</p>
+            </div>
+          </div>
+
+          {/* Approach */}
+          <div class="modal-section">
+            <div class="modal-section-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <h3 class="modal-section-label">The Approach</h3>
+              <p class="modal-section-text">{project.details!.approach}</p>
+            </div>
+          </div>
+
+          {/* Impact */}
+          <div class="modal-section">
+            <div class="modal-section-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div>
+              <h3 class="modal-section-label">Key Impact</h3>
+              <ul class="modal-impact-list">
+                {project.details!.impact.map((item) => (
+                  <li class="modal-impact-item">{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer Links -->
+        <div class="modal-footer">
+          {project.url && (
+            <a href={project.url} target="_blank" rel="noopener" class="btn btn-primary">
+              {project.urlLabel || 'View Project'}
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+          )}
+          {project.secondaryUrl && (
+            <a href={project.secondaryUrl} target="_blank" rel="noopener" class="btn btn-outline">
+              {project.secondaryUrlLabel || 'View Source'}
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+            </a>
+          )}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* ── Overlay ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: var(--space-6);
+  }
+
+  .modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── Container ── */
+  .modal-container {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: var(--color-bg-card);
+    border: 1px solid var(--color-border-hover);
+    border-radius: var(--border-radius-xl);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 60px var(--color-accent-glow);
+    padding: var(--space-10);
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .modal-overlay.active .modal-container {
+    transform: translateY(0) scale(1);
+  }
+
+  /* Scrollbar styling */
+  .modal-container::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .modal-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .modal-container::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 3px;
+  }
+
+  /* ── Close button ── */
+  .modal-close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-2);
+    color: var(--color-text-muted);
+    border-radius: var(--border-radius-sm);
+    transition: color var(--transition-fast), background var(--transition-fast);
+    z-index: 10;
+  }
+
+  .modal-close:hover {
+    color: var(--color-text-primary);
+    background: var(--color-accent-subtle);
+  }
+
+  /* ── Header ── */
+  .modal-header {
+    margin-bottom: var(--space-8);
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .modal-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+
+  .modal-company {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .modal-period {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    padding: 2px var(--space-2);
+    background: var(--color-accent-subtle);
+    border-radius: var(--border-radius-full);
+  }
+
+  .modal-title {
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--space-4);
+    background: linear-gradient(135deg, var(--color-text-primary), var(--color-accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* ── Body Sections ── */
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+  }
+
+  .modal-section {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .modal-section-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius-md);
+    background: var(--color-accent-subtle);
+    color: var(--color-accent);
+    margin-top: 2px;
+  }
+
+  .modal-section-label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-2);
+  }
+
+  .modal-section-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .modal-impact-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .modal-impact-item {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    padding-left: var(--space-5);
+    position: relative;
+  }
+
+  .modal-impact-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent-glow);
+  }
+
+  /* ── Footer ── */
+  .modal-footer {
+    display: flex;
+    gap: var(--space-3);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .modal-overlay {
+      padding: var(--space-3);
+    }
+
+    .modal-container {
+      padding: var(--space-6);
+      max-height: 90vh;
+    }
+
+    .modal-title {
+      font-size: var(--font-size-2xl);
+    }
+
+    .modal-section {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .modal-section-icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+</style>
+
+<script>
+  // Modal open/close logic
+  const overlay = document.getElementById('project-modal-overlay')!;
+  const closeBtn = document.getElementById('modal-close-btn')!;
+  const panels = overlay.querySelectorAll<HTMLElement>('.modal-panel');
+
+  function openModal(projectTitle: string) {
+    // Hide all panels, show the matching one
+    panels.forEach((p) => {
+      p.style.display = p.dataset.modalProject === projectTitle ? 'block' : 'none';
+    });
+
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Close button
+  closeBtn.addEventListener('click', closeModal);
+
+  // Click outside to close
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeModal();
+  });
+
+  // Escape key to close
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('active')) closeModal();
+  });
+
+  // Wire up all "View Details" buttons
+  document.querySelectorAll<HTMLButtonElement>('[data-open-modal]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const title = btn.dataset.openModal;
+      if (title) openModal(title);
+    });
+  });
+</script>

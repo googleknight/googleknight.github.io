@@ -1,37 +1,29 @@
-_site
+# Dependencies
+node_modules/
 
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
+# Build output
+dist/
 
-# Folder config file
-Desktop.ini
+# Astro
+.astro/
 
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
+# Environment
+.env
+.env.*
 
-# Windows Installer files
-*.cab
-*.msi
-*.msm
-*.msp
-
-# =========================
-# Operating System Files
-# =========================
-
-# OSX
-# =========================
-
+# OS
 .DS_Store
-.AppleDouble
-.LSOverride
+Thumbs.db
 
-# Icon must ends with two \r.
-Icon
-# Thumbnails
-._*
+# IDE
+.vscode/
+.idea/
 
-# Files that might appear on external disk
-.Spotlight-V100
-.Trashes
+# Old site (backed up during redesign)
+_old_site/
+
+# Helping docs (not needed in deployment)
+HelpingDocs/
+
+# Raw certificates (served from public/certificates/ instead)
+Certificates/
