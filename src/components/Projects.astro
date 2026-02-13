@@ -1,0 +1,496 @@
+---
+import { projects } from "../data/projects";
+import ProjectModal from "./ProjectModal.astro";
+
+const workProjects = projects.filter((p) => p.category === "work");
+const personalProjects = projects.filter((p) => p.category === "personal");
+const opensourceProjects = projects.filter((p) => p.category === "opensource");
+---
+
+<section class="section-alt" id="projects">
+  <div class="container">
+    <h2 class="section-heading reveal">
+      <span class="accent-underline">Projects</span>
+    </h2>
+    <p class="section-subheading reveal">
+      Things I've built and contributed to
+    </p>
+
+    <div class="project-tabs reveal" role="tablist">
+      <button
+        class="tab-btn active"
+        role="tab"
+        aria-selected="true"
+        data-tab="work"
+        id="tab-work"
+      >
+        Work Projects
+      </button>
+      <button
+        class="tab-btn"
+        role="tab"
+        aria-selected="false"
+        data-tab="opensource"
+        id="tab-opensource"
+      >
+        Open Source
+      </button>
+      <button
+        class="tab-btn"
+        role="tab"
+        aria-selected="false"
+        data-tab="personal"
+        id="tab-personal"
+      >
+        Personal Projects
+      </button>
+    </div>
+
+    <div
+      class="project-grid"
+      id="tab-panel-work"
+      role="tabpanel"
+      aria-labelledby="tab-work"
+    >
+      {
+        workProjects.map((p) => (
+          <div class="project-card glass-card reveal">
+            <div class="project-card-header">
+              <h3 class="project-title">{p.title}</h3>
+              {p.company && <span class="project-company">{p.company}</span>}
+            </div>
+            {p.period && <span class="project-period">{p.period}</span>}
+            <p class="project-desc">{p.description}</p>
+            <div class="project-tags">
+              {p.tags.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+            <div class="project-links">
+              {p.details && (
+                <button
+                  class="project-link details-btn"
+                  data-open-modal={p.title}
+                >
+                  View Details
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              )}
+              {p.url && (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="project-link"
+                >
+                  {p.urlLabel || "View Project"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+              {p.secondaryUrl && (
+                <a
+                  href={p.secondaryUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="project-link"
+                >
+                  {p.secondaryUrlLabel || "View Source"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      class="project-grid hidden"
+      id="tab-panel-opensource"
+      role="tabpanel"
+      aria-labelledby="tab-opensource"
+    >
+      {
+        opensourceProjects.map((p) => (
+          <div class="project-card glass-card reveal">
+            <div class="project-card-header">
+              <h3 class="project-title">{p.title}</h3>
+            </div>
+            <p class="project-desc">{p.description}</p>
+            <div class="project-tags">
+              {p.tags.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+            <div class="project-links">
+              {p.details && (
+                <button
+                  class="project-link details-btn"
+                  data-open-modal={p.title}
+                >
+                  View Details
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              )}
+              {p.url && (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="project-link"
+                >
+                  {p.urlLabel || "View Project"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+              {p.secondaryUrl && (
+                <a
+                  href={p.secondaryUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="project-link"
+                >
+                  {p.secondaryUrlLabel || "View Source"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div
+      class="project-grid hidden"
+      id="tab-panel-personal"
+      role="tabpanel"
+      aria-labelledby="tab-personal"
+    >
+      {
+        personalProjects.map((p) => (
+          <div class="project-card glass-card reveal">
+            <div class="project-card-header">
+              <h3 class="project-title">{p.title}</h3>
+            </div>
+            <p class="project-desc">{p.description}</p>
+            <div class="project-tags">
+              {p.tags.map((t) => (
+                <span class="tag">{t}</span>
+              ))}
+            </div>
+            <div class="project-links">
+              {p.details && (
+                <button
+                  class="project-link details-btn"
+                  data-open-modal={p.title}
+                >
+                  View Details
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="9 18 15 12 9 6" />
+                  </svg>
+                </button>
+              )}
+              {p.url && (
+                <a
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener"
+                  class="project-link"
+                >
+                  {p.urlLabel || "View Project"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+              {p.secondaryUrl && (
+                <a
+                  href={p.secondaryUrl}
+                  target="_blank"
+                  rel="noopener"
+                  class="project-link"
+                >
+                  {p.secondaryUrlLabel || "View Source"}
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="7" y1="17" x2="17" y2="7" />
+                    <polyline points="7 7 17 7 17 17" />
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<!-- Project detail modals -->
+<ProjectModal />
+
+<style>
+  .project-tabs {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-10);
+  }
+
+  .tab-btn {
+    padding: var(--space-2) var(--space-6);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-full);
+    transition: all var(--transition-fast);
+  }
+
+  .tab-btn:hover {
+    color: var(--color-text-primary);
+    border-color: var(--color-border-hover);
+  }
+
+  .tab-btn.active {
+    color: #fff;
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-start),
+      var(--color-gradient-end)
+    );
+    border-color: transparent;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .project-grid.hidden {
+    display: none;
+  }
+
+  .project-card {
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .project-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .project-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-bold);
+  }
+
+  .project-company {
+    font-size: var(--font-size-xs);
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .project-period {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+
+  .project-desc {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-top: auto;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+  }
+
+  .project-link:hover {
+    text-decoration: underline;
+  }
+
+  .details-btn {
+    background: var(--color-accent-subtle);
+    border: 1px solid var(--color-tag-border);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--border-radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .details-btn:hover {
+    background: var(--color-accent);
+    color: #fff;
+    text-decoration: none;
+    border-color: var(--color-accent);
+  }
+
+  @media (max-width: 480px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
+  const panels = {
+    work: document.getElementById("tab-panel-work"),
+    opensource: document.getElementById("tab-panel-opensource"),
+    personal: document.getElementById("tab-panel-personal"),
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      const target = tab.dataset.tab as keyof typeof panels;
+
+      // Update tabs
+      tabs.forEach((t) => {
+        t.classList.remove("active");
+        t.setAttribute("aria-selected", "false");
+      });
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+
+      // Update panels
+      Object.values(panels).forEach((p) => p?.classList.add("hidden"));
+      panels[target]?.classList.remove("hidden");
+
+      // Re-trigger reveal for newly-visible cards
+      panels[target]?.querySelectorAll(".reveal").forEach((el) => {
+        el.classList.add("visible");
+      });
+    });
+  });
+</script>

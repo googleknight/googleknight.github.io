@@ -1,0 +1,249 @@
+---
+import { skillCategories } from "../data/skills";
+
+// Map skill icon identifiers to Devicon class names or custom SVG
+const iconMap: Record<string, string> = {
+  // Languages
+  typescript: "devicon-typescript-plain",
+  javascript: "devicon-javascript-plain",
+  go: "devicon-go-original-wordmark",
+  php: "devicon-php-plain",
+  database: "devicon-azuresqldatabase-plain",
+  python: "devicon-python-plain",
+  java: "devicon-java-plain",
+  // Frontend
+  react: "devicon-react-original",
+  nextjs: "devicon-nextjs-plain",
+  tailwind: "devicon-tailwindcss-original",
+  astro: "devicon-astro-plain",
+  jest: "devicon-jest-plain",
+  // Backend
+  nodejs: "devicon-nodejs-plain",
+  nestjs: "devicon-nestjs-original",
+  express: "devicon-express-original",
+  spring: "devicon-spring-original",
+  grpc: "devicon-grpc-plain",
+  // Databases
+  postgresql: "devicon-postgresql-plain",
+  mysql: "devicon-mysql-original",
+  redis: "devicon-redis-plain",
+  mongodb: "devicon-mongodb-plain",
+  neo4j: "devicon-neo4j-plain",
+  // Cloud & DevOps
+  docker: "devicon-docker-plain",
+  aws: "devicon-amazonwebservices-plain-wordmark",
+  azure: "devicon-azure-plain",
+  gcp: "devicon-googlecloud-plain",
+  kubernetes: "devicon-kubernetes-plain",
+  grafana: "devicon-grafana-plain",
+  github: "devicon-github-original",
+  // Architecture (custom SVG icons for these)
+  microservices: "",
+  ddd: "",
+  event: "",
+  oauth: "",
+  queue: "",
+  observability: "",
+};
+---
+
+<section class="section" id="skills">
+  <div class="container">
+    <h2 class="section-heading reveal">
+      <span class="accent-underline">Skills</span>
+    </h2>
+    <p class="section-subheading reveal">Technologies and tools I work with</p>
+
+    <div class="skills-container">
+      {
+        skillCategories.map((cat) => (
+          <div class="skill-row reveal">
+            <span class="skill-category">{cat.label}</span>
+            <div class="skill-items">
+              {cat.skills.map((skill) => {
+                const iconClass = skill.icon ? iconMap[skill.icon] : "";
+                const isCustom =
+                  cat.label === "Architecture" ||
+                  cat.label === "Design Patterns";
+                return (
+                  <div
+                    class="skill-badge glass-card"
+                    title={`${skill.name} — Level ${skill.level}/5`}
+                  >
+                    <div class="skill-badge-content">
+                      {iconClass ? (
+                        <i class={`skill-icon ${iconClass}`} />
+                      ) : isCustom ? (
+                        <span class="skill-icon-text">
+                          {skill.name === "DDD"
+                            ? "◆"
+                            : skill.name === "Event-Driven"
+                              ? "⚡"
+                              : skill.name === "Microservices"
+                                ? "⬡"
+                                : skill.name === "OAuth 2.0 / JWT"
+                                  ? "🔐"
+                                  : skill.name === "Message Queues"
+                                    ? "⇄"
+                                    : skill.name === "Observability"
+                                      ? "📊"
+                                      : skill.name === "REST / GraphQL"
+                                        ? "↔"
+                                        : skill.name === "Strangler Pattern"
+                                          ? "🔄"
+                                          : skill.name === "CQRS"
+                                            ? "⇋"
+                                            : skill.name ===
+                                                "Repository Pattern"
+                                              ? "🗄"
+                                              : skill.name ===
+                                                  "Strategy Pattern"
+                                                ? "♟"
+                                                : skill.name ===
+                                                    "Factory Pattern"
+                                                  ? "🏭"
+                                                  : skill.name ===
+                                                      "Dependency Injection"
+                                                    ? "💉"
+                                                    : skill.name ===
+                                                        "Observer Pattern"
+                                                      ? "👁"
+                                                      : "•"}
+                        </span>
+                      ) : null}
+                      <span class="skill-name">{skill.name}</span>
+                    </div>
+                    <div class="skill-level">
+                      {[1, 2, 3, 4, 5].map((i) => (
+                        <span
+                          class={`level-dot ${i <= skill.level ? "active" : ""}`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills-container {
+    max-width: 900px;
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .skill-row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: var(--space-6);
+    align-items: start;
+  }
+
+  .skill-category {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    padding-top: var(--space-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .skill-badge {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    min-width: 120px;
+    border-radius: var(--border-radius-lg);
+    cursor: default;
+    transition:
+      transform var(--transition-fast),
+      border-color var(--transition-fast);
+  }
+
+  .skill-badge:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent);
+  }
+
+  .skill-badge-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .skill-icon {
+    font-size: 18px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+  }
+
+  .skill-icon-text {
+    font-size: 14px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+    line-height: 1;
+  }
+
+  .skill-name {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .skill-level {
+    display: flex;
+    gap: 4px;
+    padding-left: 26px;
+  }
+
+  .level-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-border);
+    transition: background-color var(--transition-fast);
+  }
+
+  .level-dot.active {
+    background-color: var(--color-accent);
+    box-shadow: 0 0 8px var(--color-accent-glow);
+  }
+
+  @media (max-width: 640px) {
+    .skill-row {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .skill-category {
+      padding-top: 0;
+    }
+
+    .skill-badge {
+      min-width: 100px;
+    }
+
+    .skill-level {
+      padding-left: 26px;
+    }
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Page Not Found">
+  <Navbar />
+  <main class="section not-found-page">
+    <div class="container not-found-content">
+      <h1 class="not-found-code">404</h1>
+      <p class="not-found-text">Page not found</p>
+      <p class="not-found-hint">
+        The page you're looking for doesn't exist or has been moved.
+      </p>
+      <a href="/" class="btn btn-primary">Go Home</a>
+    </div>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .not-found-page {
+    padding-top: calc(var(--nav-height) + var(--space-16));
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  .not-found-content {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .not-found-code {
+    font-size: 8rem;
+    font-weight: var(--font-weight-bold);
+    background: linear-gradient(
+      135deg,
+      var(--color-gradient-start),
+      var(--color-gradient-end)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+
+  .not-found-text {
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-primary);
+  }
+
+  .not-found-hint {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+</style>
