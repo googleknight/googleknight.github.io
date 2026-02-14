@@ -1,7 +1,7 @@
 ---
 title: "CRDTs: The Math Behind Real-Time Collaboration"
 excerpt: "From Google Docs to video like counts — how Conflict-free Replicated Data Types enable collaboration without consensus. A deep dive with TypeScript implementations."
-date: 2025-11-05
+date: 2026-02-14
 tags: ["Distributed Systems", "TypeScript", "Data Structures"]
 coverGradient: "linear-gradient(135deg, #0d0d0d, #1a0a2e, #2d1b69)"
 ---
