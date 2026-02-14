@@ -1,6 +1,6 @@
-# shubhammathur.dev
+# Portfolio — [googleknight.github.io](https://googleknight.github.io/)
 
-Personal portfolio website built with [Astro](https://astro.build).
+Personal portfolio website built with [Astro](https://astro.build), live at [googleknight.github.io](https://googleknight.github.io/).
 
 ## Tech Stack
 
@@ -69,7 +69,7 @@ coverGradient: "linear-gradient(135deg, #color1, #color2)"
 ---
 ```
 
-Blog posts are paginated at 10 per page. URLs follow the pattern `/blog` (page 1), `/blog/2` (page 2), etc.
+Blog posts are paginated at 5 per page. URLs follow the pattern `/blog` (page 1), `/blog/2` (page 2), etc.
 
 ## Deployment
 
