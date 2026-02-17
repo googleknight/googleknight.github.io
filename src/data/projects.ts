@@ -11,12 +11,15 @@ export interface Project {
   tags: string[];
   url?: string;
   urlLabel?: string;
+  repoUrl?: string; // Link for the title
   secondaryUrl?: string;
   secondaryUrlLabel?: string;
   category: "work" | "personal" | "opensource";
   period?: string;
   company?: string;
   details?: ProjectDetail;
+  stats?: string;
+  isMerged?: boolean;
 }
 
 export const projects: Project[] = [
@@ -239,13 +242,42 @@ export const projects: Project[] = [
 
   // ── Open Source Projects ──
   {
-    title: "Reactive Resume (Contributor)",
+    title: "PipelineWise",
+    company: "Wise",
+    description:
+      "Resolved a critical data loss bug in the MySQL tap by fixing numeric binlog filename comparison. Corrected the logic where string-based sorting failed after 10^6 binlog files, ensuring reliable data replication for large-scale databases.",
+    tags: ["Open Source", "Python", "MySQL", "Data Engineering"],
+    url: "https://github.com/transferwise/pipelinewise/pull/1263",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/transferwise/pipelinewise",
+    category: "opensource",
+    stats: "650+ Stars",
+    isMerged: true,
+  },
+  {
+    title: "Password Manager Resources",
+    company: "Apple",
+    description:
+      "Identified and mitigated a Cross-Site Scripting (XSS) vulnerability in the password resource toolkit. Refactored the character escaping logic to secure HTML generation, protecting users of the Apple Password Rules specification.",
+    tags: ["Open Source", "JavaScript", "Security"],
+    url: "https://github.com/apple/password-manager-resources/pull/1019",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/apple/password-manager-resources",
+    category: "opensource",
+    stats: "4.6k+ Stars",
+    isMerged: true,
+  },
+  {
+    title: "Reactive Resume",
     description:
       "I contributed to this popular open-source project by fixing critical bugs in the CV import/export feature, making sure users could move their data around easily.",
     tags: ["Open Source", "TypeScript", "React"],
     url: "https://github.com/amruthpillai/reactive-resume/pull/1978",
     urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/amruthpillai/reactive-resume",
     category: "opensource",
+    stats: "35k+ Stars",
+    isMerged: true,
   },
 
   // ── Personal Projects ──
