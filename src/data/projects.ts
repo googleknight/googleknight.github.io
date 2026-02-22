@@ -282,6 +282,34 @@ export const projects: Project[] = [
 
   // ── Personal Projects ──
   {
+    title: "Mini Workflow Engine",
+    description:
+      "A full-stack workflow automation engine (similar to Zapier) built to handle multi-step workflows triggered via HTTP. It features a robust execution engine with Transform/Filter steps, shared context mutation, and external HTTP integrations with exponential backoff retries.",
+    tags: [
+      "Node.js",
+      "Express",
+      "Next.js",
+      "PostgreSQL",
+      "Prisma",
+      "Monaco Editor",
+    ],
+    url: "https://github.com/googleknight/mini-workflow-engine",
+    category: "personal",
+    details: {
+      challenge:
+        "I wanted to build a reliable automation engine that could run multi-step workflows triggered by webhooks, similar to Zapier. The main challenge was ensuring it could seamlessly pass data between steps, stop early if conditions weren't met, and safely handle external integrations like Slack without breaking when APIs fail.",
+      approach:
+        "I built the backend with Node.js, Express, and PostgreSQL, using Prisma and JSONB to flexibly store workflows and error logs. At its core, I designed an execution engine that processes steps one by one, allowing users to transform data and make HTTP requests safely using built-in retries. For the frontend, I used Next.js and integrated the Monaco Editor to make writing JSON workflows feel natural and error-free.",
+      impact: [
+        "Built a robust engine that safely passes data between workflow steps and handles conditional logic",
+        "Made the system resilient by adding automatic exponential backoff retries and saving detailed error logs",
+        "Created a smooth, high-fidelity developer experience using React Query and the Monaco Editor",
+        "Unlocked use cases like formatting webhooks, sending Discord/Slack alerts, and building custom data pipelines",
+      ],
+      role: "Creator — I owned the full-stack design, execution engine logic, database architecture, and UI implementation.",
+    },
+  },
+  {
     title: "CRDT Library",
     description:
       "A TypeScript library for building distributed systems without conflicts. I implemented GCounter, PNCounter, GSet, and more, and chaos-tested them to ensure they work.",
