@@ -48,7 +48,7 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
 
     <div
       class="project-grid"
-      id="tab-panel-work"
+      id="work-projects"
       role="tabpanel"
       aria-labelledby="tab-work"
     >
@@ -144,7 +144,7 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
 
     <div
       class="project-grid hidden"
-      id="tab-panel-opensource"
+      id="opensource-projects"
       role="tabpanel"
       aria-labelledby="tab-opensource"
     >
@@ -273,7 +273,7 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
 
     <div
       class="project-grid hidden"
-      id="tab-panel-personal"
+      id="personal-projects"
       role="tabpanel"
       aria-labelledby="tab-personal"
     >
@@ -554,31 +554,74 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
 <script>
   const tabs = document.querySelectorAll<HTMLButtonElement>(".tab-btn");
   const panels = {
-    work: document.getElementById("tab-panel-work"),
-    opensource: document.getElementById("tab-panel-opensource"),
-    personal: document.getElementById("tab-panel-personal"),
+    work: document.getElementById("work-projects"),
+    opensource: document.getElementById("opensource-projects"),
+    personal: document.getElementById("personal-projects"),
   };
+
+  function switchTab(target: keyof typeof panels, updateHash = true) {
+    if (!panels[target]) return;
+
+    // Update tabs
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tab === target;
+      tab.classList.toggle("active", isActive);
+      tab.setAttribute("aria-selected", String(isActive));
+    });
+
+    // Update panels
+    Object.keys(panels).forEach((key) => {
+      const panel = panels[key as keyof typeof panels];
+      if (panel) {
+        panel.classList.toggle("hidden", key !== target);
+        // Only trigger reveal for newly-visible cards if they aren't already visible
+        if (key === target) {
+          panel.querySelectorAll(".reveal").forEach((el) => {
+            el.classList.add("visible");
+          });
+        }
+      }
+    });
+
+    if (updateHash) {
+      const newHash = `#${target}-projects`;
+      if (window.location.hash !== newHash) {
+        // Use history.replaceState to update the URL without adding to history stack
+        // and without causing the page to jump if there's no element with that ID
+        const url = new URL(window.location.href);
+        url.hash = newHash;
+        window.history.replaceState(null, "", url.toString());
+      }
+    }
+  }
 
   tabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       const target = tab.dataset.tab as keyof typeof panels;
-
-      // Update tabs
-      tabs.forEach((t) => {
-        t.classList.remove("active");
-        t.setAttribute("aria-selected", "false");
-      });
-      tab.classList.add("active");
-      tab.setAttribute("aria-selected", "true");
-
-      // Update panels
-      Object.values(panels).forEach((p) => p?.classList.add("hidden"));
-      panels[target]?.classList.remove("hidden");
-
-      // Re-trigger reveal for newly-visible cards
-      panels[target]?.querySelectorAll(".reveal").forEach((el) => {
-        el.classList.add("visible");
-      });
+      switchTab(target);
     });
   });
+
+  const handleHash = () => {
+    const hash = window.location.hash.toLowerCase();
+
+    if (hash === "#work-projects" || hash === "#work") {
+      switchTab("work", false);
+    } else if (hash === "#opensource-projects" || hash === "#opensource") {
+      switchTab("opensource", false);
+    } else if (hash === "#personal-projects" || hash === "#personal") {
+      switchTab("personal", false);
+    } else if (hash === "#projects") {
+      // Default to work when just #projects is used
+      switchTab("work", false);
+    }
+  };
+
+  // Run on load
+  window.addEventListener("load", handleHash);
+  // Run on hash change (e.g. from nav links)
+  window.addEventListener("hashchange", handleHash);
+
+  // Also run immediately in case the script loads after DOMContentLoaded
+  handleHash();
 </script>
