@@ -25,7 +25,8 @@ export const siteConfig = {
     leetcode: "https://leetcode.com/u/googleknight/",
   },
 
-  resumePath: "/Shubham_Mathur_Resume_2026.pdf",
+  resumePath:
+    "https://googleknight.github.io/Resume/Shubham_Mathur_Resume_2026.pdf",
 
   /** OG / SEO defaults */
   ogImage: "/og-image.png",
