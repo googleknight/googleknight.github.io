@@ -3,7 +3,7 @@ title: "CRDTs: The Math Behind Real-Time Collaboration"
 excerpt: "From Google Docs to video like counts — how Conflict-free Replicated Data Types enable collaboration without consensus. A deep dive with TypeScript implementations."
 date: 2026-02-14
 tags: ["Distributed Systems", "TypeScript", "Data Structures"]
-coverGradient: "linear-gradient(135deg, #0d0d0d, #1a0a2e, #2d1b69)"
+coverGradient: "linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end))"
 ---
 
 Have you ever wondered how Google Docs lets multiple people type in the same document simultaneously without conflicts? Or how YouTube can count millions of likes across globally distributed servers without them constantly arguing about the "true" count?

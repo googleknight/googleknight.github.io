@@ -101,6 +101,22 @@ import { siteConfig } from "../data/site-config";
       </a>
     </div>
   </div>
+
+  <div class="scroll-indicator-container reveal">
+    <a
+      href="#about"
+      class="scroll-indicator"
+      aria-label="Scroll to About section"
+    >
+      <div class="mouse">
+        <div class="wheel"></div>
+      </div>
+      <div class="arrow">
+        <span></span>
+        <span></span>
+      </div>
+    </a>
+  </div>
 </section>
 
 <style>
@@ -274,5 +290,113 @@ import { siteConfig } from "../data/site-config";
   }
   .hero-content .reveal:nth-child(6) {
     transition-delay: 0.6s;
+  }
+
+  /* Scroll Indicator */
+  .scroll-indicator-container {
+    position: absolute;
+    bottom: var(--space-6);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    z-index: 10;
+    transition-delay: 0.8s;
+  }
+
+  .scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .scroll-indicator:hover {
+    color: var(--color-accent);
+  }
+
+  .mouse {
+    width: 24px;
+    height: 36px;
+    border: 2px solid currentColor;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+  }
+
+  .scroll-indicator:hover .mouse {
+    opacity: 1;
+  }
+
+  .wheel {
+    width: 4px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 2px;
+    animation: scroll-wheel 2s infinite cubic-bezier(0.15, 0.41, 0.69, 0.94);
+  }
+
+  .arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -8px;
+  }
+
+  .arrow span {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid currentColor;
+    border-right: 2px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.5;
+    animation: scroll-arrow 2s infinite;
+  }
+
+  .scroll-indicator:hover .arrow span {
+    opacity: 0.8;
+  }
+
+  .arrow span:nth-child(1) {
+    animation-delay: -0.2s;
+  }
+
+  @keyframes scroll-wheel {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(12px);
+      opacity: 0;
+    }
+    51% {
+      transform: translateY(-8px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes scroll-arrow {
+    0% {
+      transform: rotate(45deg) translate(-2px, -2px);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(45deg) translate(2px, 2px);
+      opacity: 0;
+    }
   }
 </style>
