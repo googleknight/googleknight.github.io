@@ -31,10 +31,11 @@ const stats = [
           src={shubhamImage}
           alt="Shubham Mathur — Senior Software Engineer"
           class="about-image"
-          width={800}
-          height={1000}
+          widths={[320, 400, 640, 800]}
+          sizes="(max-width: 480px) 280px, (max-width: 992px) 320px, 400px"
           loading="lazy"
-          quality="max"
+          decoding="async"
+          quality={100}
         />
       </div>
 

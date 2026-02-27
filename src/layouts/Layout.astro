@@ -17,7 +17,7 @@ const pageTitle =
 <!doctype html>
 <html lang="en" data-theme="dark">
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) — deferred to not block rendering -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-CJHSDRFER0"
     ></script>
     <script is:inline>
@@ -63,6 +63,7 @@ const pageTitle =
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
     <link
       rel="preload"
       as="style"
@@ -84,16 +85,24 @@ const pageTitle =
     <!-- Devicons (Asynchronous loading for performance) -->
     <link
       rel="preload"
-      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css"
       as="style"
       onload="this.onload=null;this.rel='stylesheet'"
     />
     <noscript>
       <link
         rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+        href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css"
       />
     </noscript>
+
+    <!-- Override devicon font-display to prevent render-blocking -->
+    <style is:inline>
+      @font-face {
+        font-family: "devicons";
+        font-display: swap;
+      }
+    </style>
 
     <title>{pageTitle}</title>
 
