@@ -15,7 +15,6 @@ const totalYears =
 export const siteConfig = {
   name: "Shubham Mathur",
   title: "Senior Software Engineer",
-  tagline: "Builds systems that last",
   email: "shubham.mathur.wrk@gmail.com",
   description: `I'm a Senior Software Engineer with ${totalYears}+ years of experience building scalable systems at Vimeo and McKinsey. I specialize in backend architecture, microservices, and security engineering.`,
 
