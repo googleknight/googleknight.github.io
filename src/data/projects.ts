@@ -282,6 +282,37 @@ export const projects: Project[] = [
 
   // ── Personal Projects ──
   {
+    title: "Food Delivery Service",
+    description:
+      "A robust, production-ready REST API for a food delivery platform. Features include a comprehensive developer portal, end-to-end RBAC authentication/authorization, and extensive documentation architected through specs-driven agentic development.",
+    tags: [
+      "TypeScript",
+      "Node.js",
+      "Express",
+      "PostgreSQL",
+      "Prisma",
+      "Swagger",
+      "Agentic Workflow",
+    ],
+    url: "https://googleknight.github.io/Food-delivery-Service/",
+    urlLabel: "Developer Portal",
+    repoUrl: "https://github.com/googleknight/Food-delivery-Service",
+    category: "personal",
+    details: {
+      challenge:
+        "The goal was to build a secure, scalable food delivery backend with complex business logic (meal availability, order state machines, coupon validation) while maintaining absolute engineering rigor and a pristine developer experience.",
+      approach:
+        "I employed a 'specs-driven agentic development' workflow, using high-fidelity technical specifications to drive AI agents in architecting and implementing the entire system in just 3 days. The platform features an end-to-end authentication and authorization system (JWT with refresh token rotation) and a modular feature-based architecture. I authored extensive ADRs and tech specs to ensure long-term maintainability.",
+      impact: [
+        "Reduced implementation time from a 7-day scope to just 3 days using advanced agentic coding workflows",
+        "Implemented a secure end-to-end authentication/authorization system with RBAC for Customers, Owners, and Admins",
+        "Built a comprehensive developer portal with interactive Swagger documentation and Postman collections",
+        "Designed a high-performance relational schema in PostgreSQL using UUIDv7 for optimal insert performance",
+      ],
+      role: "Creator — I owned the system design, agentic workflow orchestration, and database architecture.",
+    },
+  },
+  {
     title: "Mini Workflow Engine",
     description:
       "A full-stack workflow automation engine (similar to Zapier) built to handle multi-step workflows triggered via HTTP. It features a robust execution engine with Transform/Filter steps, shared context mutation, and external HTTP integrations with exponential backoff retries.",
