@@ -8,7 +8,19 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
-    period: "Jan 2024 — Present",
+    period: "Apr 2026 — Present",
+    role: "Staff Software Engineer",
+    company: "Civilgrid",
+    location: "Remote, India",
+    highlights: [
+      "Joined as Staff Software Engineer to lead engineering teams across the APAC region; driving hiring and regional team build-out.",
+      "Improved usability and reliability of the core geospatial mapping experience (React, TypeScript, Mapbox GL, Esri/ArcGIS) — shipping new interaction features and resolving a cluster of UI positioning issues affecting daily users.",
+      "Established a Playwright E2E testing foundation across the frontend, and modernized the file-upload pipeline on the backend (Express, AWS S3 pre-signed URLs).",
+      "Authored onboarding and local dev-setup documentation as first contributions after joining, reducing ramp time for incoming engineers.",
+    ],
+  },
+  {
+    period: "Jan 2024 — Jan 2026",
     role: "Senior Software Engineer",
     company: "Vimeo",
     location: "Remote, India",

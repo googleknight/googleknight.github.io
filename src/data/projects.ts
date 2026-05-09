@@ -20,6 +20,7 @@ export interface Project {
   details?: ProjectDetail;
   stats?: string;
   isMerged?: boolean;
+  isOpen?: boolean;
 }
 
 export const projects: Project[] = [
@@ -278,6 +279,32 @@ export const projects: Project[] = [
     category: "opensource",
     stats: "35k+ Stars",
     isMerged: true,
+  },
+  {
+    title: "stripe-cli",
+    company: "Stripe",
+    description:
+      "Fixed a stdio teardown race in the go-plugin host where stripe <plugin> --help silently truncated output: the CLI tore down the plugin client without waiting for the stdio-forwarding goroutine to drain, so bytes still in flight were lost when the process exited. Replaced the Managed client lifecycle with locally-owned io.Pipe writers and a sync.WaitGroup-coordinated pair of drain goroutines, so the deferred cleanup closes the pipe writers and blocks on full flush of stdout/stderr before client.Kill() tears down the gRPC channel.",
+    tags: ["Open Source", "Go", "gRPC", "Concurrency", "CLI"],
+    url: "https://github.com/stripe/stripe-cli/pull/1580",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/stripe/stripe-cli",
+    category: "opensource",
+    stats: "2k+ Stars",
+    isOpen: true,
+  },
+  {
+    title: "link-cli",
+    company: "Stripe",
+    description:
+      "Hardened the React-Ink approval polling flow for spend requests with two fixes. Introduced a shared TERMINAL_STATUSES set (approved, denied, expired, succeeded, failed, canceled) so the useApprovalPolling hook and card/SPT flows exit cleanly on every terminal state instead of polling to timeout, added a finalized UI phase to surface non-approved outcomes, and bumped the default --timeout from 300s to 600s to comfortably outlive the server's ~8-minute approval window.",
+    tags: ["Open Source", "TypeScript", "React", "Ink", "CLI"],
+    url: "https://github.com/stripe/link-cli/pull/95",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/stripe/link-cli",
+    category: "opensource",
+    stats: "479+ Stars",
+    isOpen: true,
   },
 
   // ── Personal Projects ──

@@ -14,9 +14,9 @@ const totalYears =
 
 export const siteConfig = {
   name: "Shubham Mathur",
-  title: "Senior Software Engineer",
+  title: "Staff Software Engineer",
   email: "shubham.mathur.wrk@gmail.com",
-  description: `I'm a Senior Software Engineer with ${totalYears}+ years of experience building scalable systems at Vimeo and McKinsey. I specialize in backend architecture, microservices, and security engineering.`,
+  description: `I'm a Staff Software Engineer with ${totalYears}+ years of experience leading engineering teams and building scalable systems — currently at Civilgrid (APAC), previously at Vimeo and McKinsey. I specialize in backend architecture, microservices, and security engineering.`,
 
   social: {
     github: "https://github.com/googleknight",
