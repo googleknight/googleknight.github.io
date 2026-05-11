@@ -243,44 +243,6 @@ export const projects: Project[] = [
 
   // ── Open Source Projects ──
   {
-    title: "PipelineWise",
-    company: "Wise",
-    description:
-      "Resolved a critical data loss bug in the MySQL tap by fixing numeric binlog filename comparison. Corrected the logic where string-based sorting failed after 10^6 binlog files, ensuring reliable data replication for large-scale databases.",
-    tags: ["Open Source", "Python", "MySQL", "Data Engineering"],
-    url: "https://github.com/transferwise/pipelinewise/pull/1263",
-    urlLabel: "View Pull Request",
-    repoUrl: "https://github.com/transferwise/pipelinewise",
-    category: "opensource",
-    stats: "650+ Stars",
-    isMerged: true,
-  },
-  {
-    title: "Password Manager Resources",
-    company: "Apple",
-    description:
-      "Identified and mitigated a Cross-Site Scripting (XSS) vulnerability in the password resource toolkit. Refactored the character escaping logic to secure HTML generation, protecting users of the Apple Password Rules specification.",
-    tags: ["Open Source", "JavaScript", "Security"],
-    url: "https://github.com/apple/password-manager-resources/pull/1019",
-    urlLabel: "View Pull Request",
-    repoUrl: "https://github.com/apple/password-manager-resources",
-    category: "opensource",
-    stats: "4.6k+ Stars",
-    isMerged: true,
-  },
-  {
-    title: "Reactive Resume",
-    description:
-      "I contributed to this popular open-source project by fixing critical bugs in the CV import/export feature, making sure users could move their data around easily.",
-    tags: ["Open Source", "TypeScript", "React"],
-    url: "https://github.com/amruthpillai/reactive-resume/pull/1978",
-    urlLabel: "View Pull Request",
-    repoUrl: "https://github.com/amruthpillai/reactive-resume",
-    category: "opensource",
-    stats: "35k+ Stars",
-    isMerged: true,
-  },
-  {
     title: "stripe-cli",
     company: "Stripe",
     description:
@@ -298,13 +260,52 @@ export const projects: Project[] = [
     company: "Stripe",
     description:
       "Hardened the React-Ink approval polling flow for spend requests with two fixes. Introduced a shared TERMINAL_STATUSES set (approved, denied, expired, succeeded, failed, canceled) so the useApprovalPolling hook and card/SPT flows exit cleanly on every terminal state instead of polling to timeout, added a finalized UI phase to surface non-approved outcomes, and bumped the default --timeout from 300s to 600s to comfortably outlive the server's ~8-minute approval window.",
-    tags: ["Open Source", "TypeScript", "React", "Ink", "CLI"],
+    tags: ["Open Source", "TypeScript", "React", "CLI"],
     url: "https://github.com/stripe/link-cli/pull/95",
     urlLabel: "View Pull Request",
     repoUrl: "https://github.com/stripe/link-cli",
     category: "opensource",
     stats: "479+ Stars",
-    isOpen: true,
+    isMerged: true,
+  },
+  {
+    title: "Password Manager Resources",
+    company: "Apple",
+    description:
+      "Identified and mitigated a Cross-Site Scripting (XSS) vulnerability in the password resource toolkit. Refactored the character escaping logic to secure HTML generation, protecting users of the Apple Password Rules specification.",
+    tags: ["Open Source", "JavaScript", "Security"],
+    url: "https://github.com/apple/password-manager-resources/pull/1019",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/apple/password-manager-resources",
+    category: "opensource",
+    stats: "4.6k+ Stars",
+    isMerged: true,
+  },
+  {
+    title: "PipelineWise",
+    company: "Wise",
+    description:
+      "Resolved a critical data loss bug in the MySQL tap by fixing numeric binlog filename comparison. Corrected the logic where string-based sorting failed after 10^6 binlog files, ensuring reliable data replication for large-scale databases.",
+    tags: ["Open Source", "Python", "MySQL", "Data Engineering"],
+    url: "https://github.com/transferwise/pipelinewise/pull/1263",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/transferwise/pipelinewise",
+    category: "opensource",
+    stats: "650+ Stars",
+    isMerged: true,
+  },
+
+  {
+    title: "Reactive Resume",
+    description:
+      "I contributed to this popular open-source project by fixing critical bugs in the CV import/export feature, making sure users could move their data around easily.",
+    tags: ["Open Source", "TypeScript", "React"],
+    url: "https://github.com/amruthpillai/reactive-resume/pull/1978",
+    urlLabel: "View Pull Request",
+    repoUrl: "https://github.com/amruthpillai/reactive-resume",
+    category: "opensource",
+    stats: "35k+ Stars",
+    isMerged: true,
   },
 
   // ── Personal Projects ──
