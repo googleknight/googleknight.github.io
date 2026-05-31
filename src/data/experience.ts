@@ -13,10 +13,12 @@ export const experiences: Experience[] = [
     company: "Civilgrid",
     location: "Remote, India",
     highlights: [
-      "Joined as Staff Software Engineer to lead engineering teams across the APAC region; driving hiring and regional team build-out.",
-      "Improved usability and reliability of the core geospatial mapping experience (React, TypeScript, Mapbox GL, Esri/ArcGIS) — shipping new interaction features and resolving a cluster of UI positioning issues affecting daily users.",
-      "Established a Playwright E2E testing foundation across the frontend, and modernized the file-upload pipeline on the backend (Express, AWS S3 pre-signed URLs).",
-      "Authored onboarding and local dev-setup documentation as first contributions after joining, reducing ramp time for incoming engineers.",
+      "Joined as Staff Software Engineer, contributing across the full stack on a GIS web platform (React, TypeScript, PostgreSQL) while supporting hiring and build-out of the India engineering team.",
+      "Overhauled the reliability of the core map metadata interaction — diagnosing and fixing four compounding bugs (viewport clipping, pan/zoom anchor drift, z-index/occlusion layering with a side-flip collision algorithm, and crash isolation on malformed layer data) by tracing each misleading symptom to its true root cause.",
+      "Led the architecture analysis for migrating ~214 hardcoded GIS layer configurations from TypeScript source to a database-driven system (feature-flagged, Redis-cached, parity-checked) — mapping the dependency graph, authoring the data-access interface contract, and flagging a schema divergence before implementation.",
+      "Fixed two silent backend data bugs: a pre-signed URL contract mismatch on fresh S3 uploads, and lexicographic sorting of a numeric column caused by Postgres '->>' text extraction (resolved with a dedicated float8 CTE column and a regression test).",
+      "Established a Playwright E2E testing foundation by adding comprehensive data-testid coverage across authentication, map controls, project, and field-notes surfaces — unblocking external QA automation across multiple features at once.",
+      "Shipped admin org-creation state validation with a shared US-states module across frontend and backend, and resolved a cross-PR CSS stacking-context regression plus an invisible Puppeteer background-job error-logging bug.",
     ],
   },
   {

@@ -26,6 +26,28 @@ export interface Project {
 export const projects: Project[] = [
   // ── Work Projects ──
   {
+    title: "GIS Map Reliability Overhaul",
+    description:
+      "Hardened the core map interaction of a GIS web platform — diagnosing and fixing a cluster of compounding popup bugs through execution-path tracing, and leading the architecture analysis for a database-driven layer-configuration migration.",
+    tags: ["React", "TypeScript", "PostgreSQL", "Drizzle", "Redis", "GIS"],
+    category: "work",
+    period: "2026",
+    company: "Civilgrid",
+    details: {
+      challenge:
+        "The right-click metadata popup — a core daily interaction surfacing GIS feature attributes — had accumulated four distinct bugs: it clipped off-screen near the viewport top (recoverable only by reload), detached from its anchor on pan/zoom, rendered behind map control widgets and over the anchor dot, and crashed the entire metadata render loop whenever a single layer had a null property — silently hiding results for every other layer at that point. Separately, ~214 GIS layer configurations were hardcoded across 4+ TypeScript files, making every layer change a duplicated multi-file edit.",
+      approach:
+        "I traced each popup bug to its true root cause rather than patching symptoms: a width-derived scalar (instead of the actual pixel overlap) in the top-boundary check; a missing 'viewState' dependency in a 'useMemo' that froze coordinates against a stable 'project' reference; z-index and collision gaps fixed with a side-flip algorithm (the popup flips to the opposite quadrant when space runs out) and a self-registration pattern so overlay widgets automatically join positioning calculations; and per-feature try/catch isolation so one bad data source never silences the rest. For the layer system, I mapped the full dependency graph, authored the TypeScript data-access interface contract for a feature-flagged, Redis-cached, parity-checked DB read path, and flagged a schema divergence and two configuration maps with incompatible access patterns before any code was written.",
+      impact: [
+        "Restored a degraded core map interaction for all users by fixing four compounding bugs at the root",
+        "Implemented a side-flip collision algorithm and widget self-registration so the popup positions correctly against every map overlay",
+        "Isolated malformed-layer crashes so one bad data source no longer hides results for every other layer at a point",
+        "De-risked a ~214-config migration to a database-driven system by surfacing a schema divergence and incompatible access patterns up front",
+      ],
+      role: "Staff Software Engineer — I owned the reliability fixes through root-cause tracing and led the migration architecture analysis.",
+    },
+  },
+  {
     title: "Age Assurance Platform",
     description:
       "Strategic enterprise compliance platform (UK Online Safety Act, EU DSA) for 4.5M+ users. Architected a zero-trust, privacy-first solution that eliminates 100% of GDPR liability while protecting verified subscriber revenue.",
