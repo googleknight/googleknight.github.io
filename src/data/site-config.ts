@@ -25,7 +25,7 @@ export const siteConfig = {
   },
 
   resumePath:
-    "https://googleknight.github.io/Resume/Shubham_Mathur_Resume_2026.pdf",
+    "https://googleknight.github.io/Resume/Shubham_Mathur_Resume.pdf",
 
   /** OG / SEO defaults */
   ogImage: "/og-image.png",
