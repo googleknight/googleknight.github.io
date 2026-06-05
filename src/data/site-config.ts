@@ -16,7 +16,7 @@ export const siteConfig = {
   name: "Shubham Mathur",
   title: "Staff Software Engineer",
   email: "shubham.mathur.wrk@gmail.com",
-  description: `I'm a Staff Software Engineer with ${totalYears}+ years of experience leading engineering teams and building scalable systems — currently at Civilgrid (APAC), previously at Vimeo and McKinsey. I specialize in backend architecture, microservices, and security engineering.`,
+  description: `I'm a Staff Software Engineer with ${totalYears}+ years building backend and distributed systems, currently at Civilgrid, previously at Vimeo and McKinsey. I focus on backend architecture, identity and auth, and security engineering.`,
 
   social: {
     github: "https://github.com/googleknight",
