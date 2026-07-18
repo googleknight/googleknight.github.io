@@ -340,6 +340,39 @@ export const projects: Project[] = [
 
   // ── Personal Projects ──
   {
+    title: "SK Nursery & Garden Works",
+    description:
+      "A high-performance, SEO-optimized showcase site and service catalog for a landscaping nursery in Bengaluru. Built from scratch to help a local business, it features automated build-time image processing, dynamic JSON-LD structured data, and a WhatsApp lead generator.",
+    tags: [
+      "React",
+      "Vite",
+      "Vanilla CSS",
+      "Node.js",
+      "Sharp",
+      "SEO",
+    ],
+    url: "https://sknursery.netlify.app",
+    urlLabel: "Live Site",
+    repoUrl: "https://github.com/googleknight/sk-nursery-site",
+    category: "personal",
+    period: "2026",
+    details: {
+      role: "Creator & Full Stack Engineer — I owned the system design, UI development, SEO optimization, build scripts, and deployment.",
+      challenge:
+        "A friend running a plant nursery and landscaping business in Bengaluru needed an online presence but was quoted 20k INR by a local developer. I offered to build it from scratch. The main challenge was ensuring high-resolution landscaping galleries loaded instantly on slow mobile connections, maintaining hands-off SEO schema synchronization, and converting visitors to leads without using heavy external dependencies, all while hosting and maintaining the site at absolute zero cost.",
+      approach:
+        "I built the site using React 18, Vite 5, and modular Vanilla CSS, leveraging Netlify's free hosting tier to ensure running costs remain at zero. I partnered with Google's Antigravity AI coding assistant to design, iterate, and build the entire application from scratch. To solve performance bottlenecks, I created an automated build-time optimization pipeline using Sharp that resizes and converts images to WebP (saving ~85% in payload size), along with a directory scanner that automatically generates SEO-friendly captions. I preloaded above-the-fold hero assets and lazy-loaded below-fold images. Finally, I embedded JSON-LD schemas with dynamic client-origin resolution for Search Console validation, a custom zero-dependency before-after slider, and a surface-area cost calculator exporting pre-filled messages to WhatsApp.",
+      impact: [
+        "Delivered a professional business platform for a local friend, keeping ongoing hosting and maintenance costs at exactly $0 via Netlify",
+        "Rapidly bootstrapped and iterated the entire custom codebase from scratch in partnership with Google's Antigravity AI coding assistant",
+        "Achieved an ~85% reduction in asset payloads using a custom Sharp-powered build step",
+        "Automated manual image manifest creation, generating SEO-friendly captions directly from file directories",
+        "Ensured perfect Search Console rich snippet validation via dynamically-resolved LocalBusiness and LandscapingService schemas",
+        "Built a lightweight before-after slider and a WhatsApp lead conversion funnel that drives direct inquiries",
+      ],
+    },
+  },
+  {
     title: "Food Delivery Service",
     description:
       "A robust, production-ready REST API for a food delivery platform. Features include a comprehensive developer portal, end-to-end RBAC authentication/authorization, and extensive documentation architected through specs-driven agentic development.",
