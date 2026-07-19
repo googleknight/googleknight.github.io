@@ -1,0 +1,14 @@
+# LinkedIn post URLs to show in the Blog section — one per line.
+# Lines starting with # and blank lines are ignored.
+# After editing, run:  npm run linkedin:sync
+
+https://www.linkedin.com/posts/shubham-mathur-biz_netlify-gardening-nursery-ugcPost-7484255447252721664-uGJr/
+https://www.linkedin.com/posts/shubham-mathur-biz_stripe-opensource-claudecode-activity-7459529725938618368-paJA
+https://www.linkedin.com/posts/shubham-mathur-biz_these-days-every-company-wants-to-jump-on-activity-7455852368996474880-HATP
+https://www.linkedin.com/posts/shubham-mathur-biz_how-we-hacked-mckinseys-ai-platform-activity-7437337286813446144-ZIBF
+https://www.linkedin.com/posts/shubham-mathur-biz_you-might-have-heard-or-used-ai-assisted-activity-7432094349922021377-v7KR
+https://www.linkedin.com/posts/shubham-mathur-biz_crdt-distributedsystems-softwareengineering-activity-7426604831311593472-yWhY
+https://www.linkedin.com/posts/shubham-mathur-biz_have-you-experienced-that-youre-faster-than-activity-7375213896741281794-SBB1
+https://www.linkedin.com/posts/shubham-mathur-biz_security-cybersecurity-development-activity-7324734127138603008-Nahj
+https://www.linkedin.com/posts/shubham-mathur-biz_chromeextension-productivitytools-opensource-ugcPost-7319990992428773376-LEA1
+

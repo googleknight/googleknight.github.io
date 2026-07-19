@@ -27,3 +27,6 @@ HelpingDocs/
 
 # Raw certificates (served from public/certificates/ instead)
 Certificates/
+
+# Serena tooling
+.serena/

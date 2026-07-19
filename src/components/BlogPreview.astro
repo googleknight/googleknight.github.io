@@ -19,74 +19,122 @@ const latestPosts = allPosts.slice(0, 3);
 
     <div class="blog-grid">
       {
-        latestPosts.map((post) => (
-          <a
-            href={`/blog/${post.id}`}
-            class="blog-card glass-card reveal"
-            id={`blog-card-${post.id}`}
-          >
-            <div
-              class="blog-card-cover"
-              style={`background: ${post.data.coverGradient};`}
+        latestPosts.map((post) => {
+          const isLinkedIn = !!post.data.linkedinUrl;
+          const href = isLinkedIn ? post.data.linkedinUrl! : `/blog/${post.id}`;
+          const gradientStyle = `background: ${post.data.coverGradient ?? "linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end))"};`;
+          return (
+            <a
+              href={href}
+              class="blog-card glass-card reveal"
+              id={`blog-card-${post.id}`}
+              target={isLinkedIn ? "_blank" : undefined}
+              rel={isLinkedIn ? "noopener noreferrer" : undefined}
             >
-              <div class="blog-card-cover-content">
-                <span class="blog-card-date">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <>
-                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                      <line x1="16" y1="2" x2="16" y2="6" />
-                      <line x1="8" y1="2" x2="8" y2="6" />
-                      <line x1="3" y1="10" x2="21" y2="10" />
-                    </>
-                  </svg>
-                  {post.data.date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
+              <div class="blog-card-cover">
+                {post.data.image ? (
+                  <img
+                    class="blog-card-cover-img"
+                    src={post.data.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="blog-card-cover-fill" style={gradientStyle} />
+                )}
+                {isLinkedIn && (
+                  <span class="blog-card-badge">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                    </svg>
+                    LinkedIn
+                  </span>
+                )}
+                <div class="blog-card-cover-content">
+                  <span class="blog-card-date">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </>
+                    </svg>
+                    {post.data.date.toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+              </div>
+              <div class="blog-card-body">
+                <h3 class="blog-card-title">{post.data.title}</h3>
+                <p class="blog-card-excerpt">{post.data.excerpt}</p>
+                <div class="blog-card-tags">
+                  {post.data.tags.map((tag) => (
+                    <span class="tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="blog-card-read-more">
+                  {isLinkedIn ? "View on LinkedIn" : "Read Article"}
+                  {isLinkedIn ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </>
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </>
+                    </svg>
+                  )}
                 </span>
               </div>
-            </div>
-            <div class="blog-card-body">
-              <h3 class="blog-card-title">{post.data.title}</h3>
-              <p class="blog-card-excerpt">{post.data.excerpt}</p>
-              <div class="blog-card-tags">
-                {post.data.tags.map((tag) => (
-                  <span class="tag">{tag}</span>
-                ))}
-              </div>
-              <span class="blog-card-read-more">
-                Read Article
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <>
-                    <line x1="5" y1="12" x2="19" y2="12" />
-                    <polyline points="12 5 19 12 12 19" />
-                  </>
-                </svg>
-              </span>
-            </div>
-          </a>
-        ))
+            </a>
+          );
+        })
       }
     </div>
 
@@ -149,6 +197,15 @@ const latestPosts = allPosts.slice(0, 3);
     overflow: hidden;
   }
 
+  #blog-preview .blog-card-cover-img,
+  #blog-preview .blog-card-cover-fill {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   #blog-preview .blog-card-cover::after {
     content: "";
     position: absolute;
@@ -163,6 +220,27 @@ const latestPosts = allPosts.slice(0, 3);
     align-items: center;
     justify-content: space-between;
     width: 100%;
+  }
+
+  #blog-preview .blog-card-badge {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 4px 10px;
+    border-radius: var(--border-radius-full);
+    background: rgba(10, 12, 8, 0.78);
+    color: #fff;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    backdrop-filter: blur(4px);
+  }
+
+  #blog-preview .blog-card-badge svg {
+    color: var(--color-accent);
   }
 
   #blog-preview .blog-card-date {

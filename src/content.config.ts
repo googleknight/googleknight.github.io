@@ -8,7 +8,14 @@ const blog = defineCollection({
     excerpt: z.string(),
     date: z.coerce.date(),
     tags: z.array(z.string()),
-    coverGradient: z.string(),
+    // Native articles use a CSS gradient cover; LinkedIn posts use `image`.
+    coverGradient: z.string().optional(),
+    // Local path to a cover image (e.g. "/linkedin/<id>.jpg").
+    image: z.string().optional(),
+    // When set, the card links out to this LinkedIn post instead of a local page.
+    linkedinUrl: z.string().url().optional(),
+    // Origin marker: "linkedin" for generated posts.
+    source: z.string().optional(),
   }),
 });
 

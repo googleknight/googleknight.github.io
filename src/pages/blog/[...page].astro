@@ -31,16 +31,44 @@ const { page } = Astro.props;
 
       <div class="blog-list">
         {
-          page.data.map((post) => (
+          page.data.map((post) => {
+            const isLinkedIn = !!post.data.linkedinUrl;
+            const href = isLinkedIn ? post.data.linkedinUrl! : `/blog/${post.id}`;
+            const gradientStyle = `background: ${post.data.coverGradient ?? "linear-gradient(135deg, var(--color-gradient-start), var(--color-gradient-end))"};`;
+            return (
             <a
-              href={`/blog/${post.id}`}
+              href={href}
               class="blog-list-card glass-card"
               id={`blog-list-${post.id}`}
+              target={isLinkedIn ? "_blank" : undefined}
+              rel={isLinkedIn ? "noopener noreferrer" : undefined}
             >
-              <div
-                class="blog-list-cover"
-                style={`background: ${post.data.coverGradient};`}
-              >
+              <div class="blog-list-cover">
+                {post.data.image ? (
+                  <img
+                    class="blog-list-cover-img"
+                    src={post.data.image}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <div class="blog-list-cover-fill" style={gradientStyle} />
+                )}
+                {isLinkedIn && (
+                  <span class="blog-list-badge">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="13"
+                      height="13"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z" />
+                    </svg>
+                    LinkedIn
+                  </span>
+                )}
                 <div class="blog-list-cover-overlay" />
               </div>
               <div class="blog-list-content">
@@ -86,27 +114,47 @@ const { page } = Astro.props;
                   ))}
                 </div>
                 <span class="blog-list-read-more">
-                  Read Article
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <>
-                      <line x1="5" y1="12" x2="19" y2="12" />
-                      <polyline points="12 5 19 12 12 19" />
-                    </>
-                  </svg>
+                  {isLinkedIn ? "View on LinkedIn" : "Read Article"}
+                  {isLinkedIn ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <line x1="7" y1="17" x2="17" y2="7" />
+                        <polyline points="7 7 17 7 17 17" />
+                      </>
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <>
+                        <line x1="5" y1="12" x2="19" y2="12" />
+                        <polyline points="12 5 19 12 12 19" />
+                      </>
+                    </svg>
+                  )}
                 </span>
               </div>
             </a>
-          ))
+            );
+          })
         }
       </div>
 
@@ -259,6 +307,15 @@ const { page } = Astro.props;
     min-height: 180px;
   }
 
+  .blog-list-cover-img,
+  .blog-list-cover-fill {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
   .blog-list-cover-overlay {
     position: absolute;
     inset: 0;
@@ -267,6 +324,27 @@ const { page } = Astro.props;
       transparent 60%,
       var(--color-bg-card) 100%
     );
+  }
+
+  .blog-list-badge {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 4px 10px;
+    border-radius: var(--border-radius-full);
+    background: rgba(10, 12, 8, 0.78);
+    color: #fff;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    backdrop-filter: blur(4px);
+  }
+
+  .blog-list-badge svg {
+    color: var(--color-accent);
   }
 
   .blog-list-content {

@@ -57,7 +57,9 @@ Edit TypeScript files in `src/data/`:
 
 ### Blog
 
-Add `.md` files to `src/content/blog/` with the required frontmatter:
+The Blog section holds two kinds of entries, both living in `src/content/blog/`:
+
+**1. Hand-written articles** — a `.md` file with your content below the frontmatter:
 
 ```yaml
 ---
@@ -67,9 +69,34 @@ date: 2026-02-14
 tags: ["Tag1", "Tag2"]
 coverGradient: "linear-gradient(135deg, #color1, #color2)"
 ---
+
+Your markdown article body goes here…
 ```
 
-Blog posts are paginated at 5 per page. URLs follow the pattern `/blog` (page 1), `/blog/2` (page 2), etc.
+These render as a normal card that opens a full on-site article page at `/blog/<slug>`.
+
+**2. LinkedIn posts** — generated automatically from post URLs (see below). These render
+as cards that redirect to the original LinkedIn post; they have no local article page.
+
+Blog posts are paginated at 5 per page and sorted newest-first. URLs follow the pattern
+`/blog` (page 1), `/blog/2` (page 2), etc.
+
+### LinkedIn posts → Blog cards
+
+To surface a LinkedIn post in the Blog section:
+
+```bash
+# 1. Add the post URL(s) to linkedin-sync/posts.txt (one per line)
+# 2. Generate the blog entries + optimized images:
+npm run linkedin:sync
+
+# 3. If the dev server is running, restart it so it re-syncs content.
+```
+
+The script reads each post's public Open Graph data, downloads and optimizes the image,
+and writes a `linkedin-<id>.md` into `src/content/blog/`. Re-running it **skips posts that
+already exist**, so appending new URLs only fetches the new ones and never clobbers edits.
+Full details in [`linkedin-sync/README.md`](./linkedin-sync/README.md).
 
 ## Deployment
 
