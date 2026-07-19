@@ -32,9 +32,11 @@ export const projects: Project[] = [
     tags: [
       "React",
       "TypeScript",
+      "Bun",
       "PostgreSQL",
       "Drizzle",
       "Redis",
+      "Inngest",
       "Feature Flags",
       "GIS",
     ],
@@ -50,9 +52,69 @@ export const projects: Project[] = [
         "Turned every GIS layer change from a multi-file code edit and redeploy into a safe, runtime-configurable database operation",
         "De-risked the migration by surfacing a schema divergence and incompatible access patterns up front, before implementation",
         "Introduced a Redis-cached, parity-checked read path that kept the new system fast and verifiably correct against the legacy source",
-        "Established a feature-flag and parity-check migration pattern reused as a template for future platform changes",
+        "Extended the same DB-driven approach to the standalone tile-generation service, replacing 200+ hardcoded layer URLs with a fallback-first runtime lookup and adding that repo's first test suite",
+        "Established a repeatable feature-flag and parity-check pattern for future platform migrations",
       ],
       role: "Staff Software Engineer, owning the architecture analysis, the data-access contract, and the migration strategy, and setting the direction for the team's execution.",
+    },
+  },
+  {
+    title: "GIS Config Promotion & Rollback Pipeline",
+    description:
+      "Built a CI/CD pipeline that promotes CivilGrid's GIS layer-config catalog across environments as a single atomic, self-rolling-back operation, replacing hand-run SQL with a one-command, auditable process.",
+    tags: [
+      "CI/CD",
+      "GitHub Actions",
+      "Inngest",
+      "PostgreSQL",
+      "AWS S3",
+      "TypeScript",
+    ],
+    category: "work",
+    period: "2026",
+    company: "Civilgrid",
+    details: {
+      challenge:
+        "Promoting the GIS layer-config catalog between environments (staging, preview, production) meant hand-run SQL, which was slow, error-prone, and had no safe rollback. A bad promotion could corrupt the live layer catalog with no clean way back.",
+      approach:
+        "I designed promotion as a single atomic operation. Background jobs do the database work while CI workflows act as pure orchestrators that dispatch events and poll for completion. The cutover runs inside one transaction: lock, replace, validate in-transaction, and automatically roll back if the new catalog is unbuildable, with a zero-row guard and write-once backup snapshots taken before every change. I used an artifact-relay design where the source environment exports to object storage and the target imports from it, so no environment ever holds another's database credentials, and gated production behind a separate, manually triggered approval step.",
+      impact: [
+        "Replaced manual, error-prone SQL promotions with a one-command, auditable pipeline",
+        "Made every promotion atomic and automatically self-rolling-back on validation failure",
+        "Eliminated cross-environment credential sharing via an object-storage relay design",
+        "Added write-once backup snapshots giving a clean, verifiable rollback path",
+        "Backed the cutover logic with a 40+ test suite",
+      ],
+      role: "Staff Software Engineer, owning the pipeline design, the transactional cutover logic, and the promotion/rollback workflows.",
+    },
+  },
+  {
+    title: "Demo Environment Reset Engine",
+    description:
+      "An admin-triggered engine that resets a sales demo organization to a clean golden-image snapshot, safely deleting and restoring data that shares physical tables with live customer data.",
+    tags: [
+      "TypeScript",
+      "PostgreSQL",
+      "Drizzle",
+      "Inngest",
+      "Data Integrity",
+      "React",
+    ],
+    category: "work",
+    period: "2026",
+    company: "Civilgrid",
+    details: {
+      challenge:
+        "Sales demo orgs drift after every demo and needed a reliable reset to a known-good state. The hard part: demo data lives in the same physical tables as real customer data, so a blanket table wipe was off the table, and most foreign keys don't cascade, so deletes had to respect a ~30-table dependency graph without orphaning rows or touching other tenants.",
+      approach:
+        "I built a reset engine that walks the reverse foreign-key graph from the org's projects, collecting rows forward then deleting child-before-parent so nothing is orphaned, then imports a re-keyed golden-image snapshot. The delete and restore run inside a single database transaction, so a failure leaves the org untouched. Around it I layered independent guards: super-admin auth, a type-to-confirm dialog, a per-environment safety marker, a server-side re-check that the target really is a demo org (under a row lock), and a concurrency guard keyed to the target org.",
+      impact: [
+        "Turned a manual, risky cleanup into a one-click, transactional reset",
+        "Safely deletes across a ~30-table foreign-key graph without orphaning rows or touching real tenants",
+        "All-or-nothing restore: a failed reset leaves the org exactly as it was",
+        "Multiple independent safety guards prevent resetting the wrong organization",
+      ],
+      role: "Staff Software Engineer, owning the delete-and-restore engine and its safety guards.",
     },
   },
   {
