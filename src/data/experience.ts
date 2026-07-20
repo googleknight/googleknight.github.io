@@ -13,10 +13,10 @@ export const experiences: Experience[] = [
     company: "Civilgrid",
     location: "Remote, India",
     highlights: [
-      "Founding member of CivilGrid's India engineering team, establishing the engineering presence through hiring, technical standards, code-review culture, and architectural direction while delivering full-stack features end-to-end across a GIS web platform (React, TypeScript, PostgreSQL).",
-      "Led the architecture and delivery of a database-driven layer-configuration platform, migrating ~214 hardcoded GIS configurations to a feature-flagged, Redis-cached, parity-checked system, owning the dependency mapping and data-access interface contract end-to-end.",
-      "Set the team's engineering quality bar by establishing a Playwright end-to-end testing foundation across authentication, map controls, and project surfaces, unblocking automated QA across the product.",
-      "Own reliability and performance across the GIS platform, driving root-cause analysis on the most complex rendering and data-layer issues and mentoring engineers on debugging, architecture, and code review.",
+      "Founding member of CivilGrid's India engineering team, establishing the engineering presence through hiring, technical standards, code-review culture, and architectural direction while delivering full-stack features end-to-end across a GIS web platform (React, TypeScript, Bun, PostgreSQL, Drizzle, Redis).",
+      "Architected and led the migration of GIS layer configuration from ~214 hardcoded TypeScript definitions across 4+ files to a feature-flagged, Redis-cached, parity-checked database-driven platform, turning every layer change from a multi-file edit and redeploy into a safe runtime operation, and extended the same approach to the tile-generation service by replacing 200+ hardcoded layer URLs with a fallback-first runtime lookup.",
+      "Built a CI/CD pipeline that promotes the GIS config catalog across environments as a single atomic, self-rolling-back transaction, replacing hand-run SQL with a one-command auditable process and eliminating cross-environment credential sharing via an object-storage relay design, backed by a 40+ test suite.",
+      "Designed an admin-triggered demo-environment reset engine that restores a sales demo org to a golden-image snapshot inside a single transaction, safely deleting across a ~30-table foreign-key graph without orphaning rows or touching live customer data, guarded by multiple independent safety checks.",
     ],
   },
   {
