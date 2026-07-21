@@ -29,7 +29,7 @@ export const experiences: Experience[] = [
       "Led the architectural design of 'Anumati,' a Golang microservice to decouple authentication from a legacy PHP monolith. Reverse-engineered 15 years of undocumented auth logic, implemented core flows, and guided engineers through development with code reviews.",
       "Re-architected the user deactivation system using DDD and async queueing, scaling from 4K to 50K+ accounts per batch and reducing processing time by 99.9% (2 days → under 5 minutes).",
       "Identified a critical MFA bypass flaw and authored the design specification for a Backup Recovery Code system. Hardened auth flows against XSS and Open Redirect attacks.",
-      "Defined SLOs and built custom Grafana dashboards, achieving 0% data inconsistencies post-launch. Authored source-of-truth technical specifications used by Web, Mobile, and TVOS teams.",
+      "Built the first version of 'VimeoIQ,' an internal AI-powered Slack assistant on Vertex AI (Gemini 1.5 Flash) that helped employees find answers from org-wide Google Docs. Designed a two-pass secret-scrubbing pipeline, precision-tuned chunking with offline evals, and an async Cloud Tasks architecture. Rolled out to teams in the India office as a V1 to validate the experience and gather feedback.",
     ],
   },
   {

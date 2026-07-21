@@ -111,9 +111,9 @@ const projectsWithDetails = projects.filter((p) => p.details);
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background: var(--color-modal-backdrop);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -328,6 +328,7 @@ const projectsWithDetails = projects.filter((p) => p.details);
 <script>
   // Modal open/close logic
   const overlay = document.getElementById('project-modal-overlay')!;
+  const modalContainer = overlay.querySelector('.modal-container')!;
   const closeBtn = document.getElementById('modal-close-btn')!;
   const panels = overlay.querySelectorAll<HTMLElement>('.modal-panel');
 
@@ -336,6 +337,11 @@ const projectsWithDetails = projects.filter((p) => p.details);
     panels.forEach((p) => {
       p.style.display = p.dataset.modalProject === projectTitle ? 'block' : 'none';
     });
+
+    // Reset scroll position of the container so switching modals doesn't persist scroll position
+    if (modalContainer) {
+      modalContainer.scrollTop = 0;
+    }
 
     overlay.classList.add('active');
     overlay.setAttribute('aria-hidden', 'false');
@@ -363,9 +369,27 @@ const projectsWithDetails = projects.filter((p) => p.details);
 
   // Wire up all "View Details" buttons
   document.querySelectorAll<HTMLButtonElement>('[data-open-modal]').forEach((btn) => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation(); // Stop propagation to avoid double triggering card click
       const title = btn.dataset.openModal;
       if (title) openModal(title);
+    });
+  });
+
+  // Wire up all project cards that have details to open the modal
+  document.querySelectorAll<HTMLElement>('[data-project-details]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      // If the clicked element or any of its ancestors up to the card is an anchor link,
+      // let it work normally and don't open the modal.
+      if (target.closest('a')) {
+        return;
+      }
+      
+      const title = card.dataset.projectDetails;
+      if (title) {
+        openModal(title);
+      }
     });
   });
 </script>

@@ -192,6 +192,39 @@ export const projects: Project[] = [
     },
   },
   {
+    title: "VimeoIQ: Internal AI Knowledge Assistant",
+    description:
+      "The first version of an internal AI-powered Slack assistant at Vimeo, built to help employees quickly find answers from org-wide Google Docs. Rolled out to a few teams in the India office as a V1 to validate the experience and gather feedback.",
+    tags: [
+      "Python",
+      "FastAPI",
+      "Vertex AI",
+      "Gemini",
+      "GCP",
+      "Cloud SQL",
+      "PostgreSQL",
+      "Slack API",
+      "RAG",
+    ],
+    category: "work",
+    period: "2024 — 2025",
+    company: "Vimeo",
+    details: {
+      challenge:
+        "Internal documentation at Vimeo lived in Google Docs spread across dozens of team folders. New engineers and non-engineering staff regularly pinged senior engineers on Slack for questions that were already answered somewhere in the docs. I wanted to build a V1 of an AI assistant that could surface these answers reliably, but with real constraints: internal documents could never leave GCP, any credentials accidentally pasted into docs had to be scrubbed before reaching the LLM, and Slack's 3-second webhook timeout meant the system couldn't just block while the model generated a response.",
+      approach:
+        "I designed and built VimeoIQ as five subsystems: an ingestion pipeline pulling from Google Docs via the Drive API, a split storage layer, the RAG engine, a Slack bot interface, and a security layer. I chose Gemini 1.5 Flash on Vertex AI over GPT-4o and Claude because it kept data inside our GCP project with no new vendor DPA, and it was roughly 17x cheaper than Gemini Pro while being more than good enough for Q&A with retrieved context. For security, I built a two-pass secret scrubber using Yelp's detect-secrets for entropy and regex patterns, then Cloud DLP as a second pass, replacing anything it caught with typed placeholders like [REDACTED_API_KEY]. Vectors go into Vertex AI Vector Search while raw chunk text lives in Cloud SQL, so even a vector DB compromise doesn't expose document content. To handle Slack's timeout, I used Cloud Tasks to immediately acknowledge the webhook, post a 'Thinking...' message, and process the query asynchronously. The chunking strategy was tuned to 800-token recursive splits with 150-token overlap after an initial 500-token pass proved too noisy, validated against a ground-truth eval set before rollout.",
+      impact: [
+        "Shipped the V1 in roughly 8 weeks and rolled it out to teams in the India office for validation and feedback",
+        "Zero credential leaks through two-pass edge redaction plus prompt-level and response-level guardrails",
+        "Cut LLM costs by approximately 17x compared to Gemini Pro by selecting Flash with precision-tuned retrieval doing the heavy lifting",
+        "Every response included cited source links and a confidence score, with the bot refusing to answer below threshold instead of hallucinating",
+        "Built an offline eval harness that gated every retrieval and chunking change before deployment",
+      ],
+      role: "Creator and Lead Developer. I owned the system design, built all five subsystems, and coordinated with security and ML platform teams for the data residency and threat model review.",
+    },
+  },
+  {
     title: "GenAI Banking IVR",
     description:
       "Built a secure GenAI banking IVR that handles natural conversations. I focused on making sure it was safe, compliant, and kept PII private.",

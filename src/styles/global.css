@@ -41,6 +41,7 @@
   --color-bg-card-hover: rgba(35, 40, 25, 0.8);
   --color-bg-nav: rgba(13, 15, 13, 0.85);
   --color-bg-modal: rgba(18, 22, 13, 0.96);
+  --color-modal-backdrop: rgba(0, 0, 0, 0.45);
 
   --color-text-primary: #f0f0e8;
   --color-text-secondary: #c5c5b5;
@@ -70,6 +71,7 @@
   --color-bg-card-hover: rgba(255, 255, 255, 0.95);
   --color-bg-nav: rgba(245, 245, 240, 0.9);
   --color-bg-modal: rgba(250, 250, 245, 0.98);
+  --color-modal-backdrop: rgba(0, 0, 0, 0.25);
 
   --color-text-primary: #2d332d;
   --color-text-secondary: #4d554d;

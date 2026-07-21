@@ -54,7 +54,7 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
     >
       {
         workProjects.map((p) => (
-          <div class="project-card glass-card reveal">
+          <div class="project-card glass-card reveal" data-project-details={p.details ? p.title : undefined}>
             <div class="project-card-header">
               <h3 class="project-title">{p.title}</h3>
               {p.company && <span class="project-company">{p.company}</span>}
@@ -150,7 +150,7 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
     >
       {
         opensourceProjects.map((p) => (
-          <div class="project-card glass-card reveal opensource-card">
+          <div class="project-card glass-card reveal opensource-card" data-project-details={p.details ? p.title : undefined}>
             <div class="project-card-header">
               <div class="project-badges">
                 {p.isMerged && (
@@ -301,7 +301,7 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
     >
       {
         personalProjects.map((p) => (
-          <div class="project-card glass-card reveal">
+          <div class="project-card glass-card reveal" data-project-details={p.details ? p.title : undefined}>
             <div class="project-card-header">
               <h3 class="project-title">{p.title}</h3>
             </div>
@@ -440,6 +440,10 @@ const opensourceProjects = projects.filter((p) => p.category === "opensource");
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
+  }
+
+  .project-card[data-project-details] {
+    cursor: pointer;
   }
 
   .project-card-header {
