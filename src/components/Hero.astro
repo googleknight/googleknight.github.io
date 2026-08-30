@@ -1,5 +1,8 @@
 ---
 import { siteConfig } from "../data/site-config";
+import { getLastUpdated } from "../utils/lastUpdated";
+
+const lastUpdated = getLastUpdated();
 ---
 
 <section class="hero" id="hero">
@@ -99,6 +102,11 @@ import { siteConfig } from "../data/site-config";
         >
       </a>
     </div>
+
+    <p class="hero-updated reveal">
+      <span class="hero-updated-dot"></span>
+      Last updated {lastUpdated}
+    </p>
   </div>
 
   <div class="scroll-indicator-container reveal">
@@ -246,6 +254,37 @@ import { siteConfig } from "../data/site-config";
     display: flex;
     gap: var(--space-4);
     justify-content: center;
+  }
+
+  .hero-updated {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-top: var(--space-8);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hero-updated-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--border-radius-full);
+    background-color: var(--color-accent);
+    box-shadow: 0 0 8px 1px var(--color-accent);
+    animation: hero-updated-pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes hero-updated-pulse {
+    0%,
+    100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
   }
 
   .social-link {
