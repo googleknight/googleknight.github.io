@@ -13,10 +13,10 @@ export const experiences: Experience[] = [
     company: "Civilgrid",
     location: "Remote, India",
     highlights: [
-      "Founding member of CivilGrid's India engineering team, establishing the engineering presence through hiring, technical standards, code-review culture, and architectural direction while delivering full-stack features end-to-end across a GIS web platform (React, TypeScript, Bun, PostgreSQL, Drizzle, Redis).",
-      "Architected and led the migration of GIS layer configuration from ~214 hardcoded TypeScript definitions across 4+ files to a feature-flagged, Redis-cached, parity-checked database-driven platform, turning every layer change from a multi-file edit and redeploy into a safe runtime operation, and extended the same approach to the tile-generation service by replacing 200+ hardcoded layer URLs with a fallback-first runtime lookup.",
-      "Built a CI/CD pipeline that promotes the GIS config catalog across environments as a single atomic, self-rolling-back transaction, replacing hand-run SQL with a one-command auditable process and eliminating cross-environment credential sharing via an object-storage relay design, backed by a 40+ test suite.",
-      "Designed an admin-triggered demo-environment reset engine that restores a sales demo org to a golden-image snapshot inside a single transaction, safely deleting across a ~30-table foreign-key graph without orphaning rows or touching live customer data, guarded by multiple independent safety checks.",
+      "Founding member of CivilGrid's India engineering team, helping build the engineering organization through hiring, engineering standards, code reviews, technical design, and architectural direction.",
+      "Designed and shipped a production-ready bulk photo import workflow for PG&E Land Ops, converting customer photo archives into map-pinned Field Notes with EXIF extraction, geospatial validation, resumable uploads, retry handling, and customer-scale browser performance validation.",
+      "Built the GIS configuration promotion platform, replacing manual database changes with an auditable CI/CD workflow using atomic PostgreSQL cutovers, S3 artifact transfer, in-transaction validation, cache rebuilds, rollback support, and automated integration tests.",
+      "Built an admin-triggered demo organization reset system and led reliability improvements across the platform, including golden-image restoration with FK-safe transactional cleanup, Utilities load observability and health monitoring, and agency response-time estimation.",
     ],
   },
   {
