@@ -26,42 +26,39 @@ export interface Project {
 export const projects: Project[] = [
   // ── Work Projects ──
   {
-    title: "Database-Driven GIS Layer Configuration Platform",
+    title: "Bulk Photo Import & Field Notes",
     description:
-      "Architected and led CivilGrid's migration of GIS layer configuration from hardcoded TypeScript to a feature-flagged, Redis-cached, database-driven platform, turning every layer change from a multi-file code edit and redeploy into a safe, runtime-configurable operation.",
+      "Built a production-ready browser workflow, released to all users, that turns ZIP archives of geotagged photos into map-pinned Field Notes with resumable uploads and measured limits for customer-scale imports.",
     tags: [
       "React",
       "TypeScript",
-      "Bun",
-      "PostgreSQL",
-      "Drizzle",
-      "Redis",
-      "Inngest",
-      "Feature Flags",
+      "Mapbox GL",
       "GIS",
+      "EXIF",
+      "JSZip",
+      "Turf.js",
     ],
     category: "work",
     period: "2026",
-    company: "Civilgrid",
+    company: "CivilGrid",
     details: {
       challenge:
-        "About 214 GIS layer configurations were hardcoded across 4+ TypeScript files, so every layer change meant duplicated, error-prone edits and a full redeploy. As the platform and the India engineering team scaled, this became a hard bottleneck on delivery velocity and a recurring source of regressions.",
+        "PG&E Land Ops surfaced the need to bring geotagged road-condition photos from nested OneDrive folders onto the map. The web app needed to convert a ZIP archive into image Field Notes without blocking the UI, placing photos outside a project's boundary, or creating duplicates after a retry.",
       approach:
-        "I led the architecture analysis end-to-end. I mapped the full dependency graph across the configuration surface, authored the TypeScript data-access interface contract for a feature-flagged, Redis-cached, parity-checked database read path, and surfaced a schema divergence and two configuration maps with incompatible access patterns before any code was written. The design let the team cut over incrementally behind feature flags, with automated parity checks proving the database-driven path matched the legacy source exactly at every step.",
+        "I built the client-side import flow around the existing upload and geo-item APIs: it walks nested ZIP contents, extracts GPS and direction metadata, checks locations against the project boundary with a one-mile tolerance, generates 512px thumbnails, and creates image notes sequentially. The flow tracks completed items so retries skip already-created photos, applies upload and create timeouts, and warns before navigation or refresh. I also restricted imports to formats the product can render reliably and surfaced skipped files with their reason.",
       impact: [
-        "Turned every GIS layer change from a multi-file code edit and redeploy into a safe, runtime-configurable database operation",
-        "De-risked the migration by surfacing a schema divergence and incompatible access patterns up front, before implementation",
-        "Introduced a Redis-cached, parity-checked read path that kept the new system fast and verifiably correct against the legacy source",
-        "Extended the same DB-driven approach to the standalone tile-generation service, replacing 200+ hardcoded layer URLs with a fallback-first runtime lookup and adding that repo's first test suite",
-        "Established a repeatable feature-flag and parity-check pattern for future platform migrations",
+        "Validated a 670-photo, 242 MB ZIP import in about 6 to 7 minutes while keeping the UI responsive",
+        "Demonstrated that 100 to 150 photos per import fits the browser path, with a measured in-browser ZIP memory ceiling of roughly 1 to 2 GB",
+        "Made interrupted imports resumable without duplicating Field Notes",
+        "Captured the threshold for a future backend job: imports in the tens of thousands need server-side deduplication and pollable progress",
       ],
-      role: "Staff Software Engineer, owning the architecture analysis, the data-access contract, and the migration strategy, and setting the direction for the team's execution.",
+      role: "Software Engineer, building the web import flow, reliability safeguards, and performance validation.",
     },
   },
   {
     title: "GIS Config Promotion & Rollback Pipeline",
     description:
-      "Built a CI/CD pipeline that promotes CivilGrid's GIS layer-config catalog across environments as a single atomic, self-rolling-back operation, replacing hand-run SQL with a one-command, auditable process.",
+      "Built the workflow that promotes CivilGrid's GIS layer catalog between environments through an atomic, validated cutover with an auditable rollback path.",
     tags: [
       "CI/CD",
       "GitHub Actions",
@@ -72,20 +69,20 @@ export const projects: Project[] = [
     ],
     category: "work",
     period: "2026",
-    company: "Civilgrid",
+    company: "CivilGrid",
     details: {
       challenge:
-        "Promoting the GIS layer-config catalog between environments (staging, preview, production) meant hand-run SQL, which was slow, error-prone, and had no safe rollback. A bad promotion could corrupt the live layer catalog with no clean way back.",
+        "Engineers moved the GIS catalog with manual SQL. An empty or malformed source could leave the live map with no layers, and there was no approval gate, audit trail, or reliable path back to the previous catalog.",
       approach:
-        "I designed promotion as a single atomic operation. Background jobs do the database work while CI workflows act as pure orchestrators that dispatch events and poll for completion. The cutover runs inside one transaction: lock, replace, validate in-transaction, and automatically roll back if the new catalog is unbuildable, with a zero-row guard and write-once backup snapshots taken before every change. I used an artifact-relay design where the source environment exports to object storage and the target imports from it, so no environment ever holds another's database credentials, and gated production behind a separate, manually triggered approval step.",
+        "I implemented GitHub Actions workflows that dispatch and poll Inngest jobs. The cutover locks the catalog table, replaces it, and validates that the rows build a layer-config snapshot before the transaction commits. Source environments export manifests and row data to S3; targets verify the checksum, row count, and non-empty input before writing. Each promotion records a backup artifact, rebuilds caches after commit, and production uses a separate manually dispatched, actor-gated workflow.",
       impact: [
-        "Replaced manual, error-prone SQL promotions with a one-command, auditable pipeline",
-        "Made every promotion atomic and automatically self-rolling-back on validation failure",
-        "Eliminated cross-environment credential sharing via an object-storage relay design",
-        "Added write-once backup snapshots giving a clean, verifiable rollback path",
-        "Backed the cutover logic with a 40+ test suite",
+        "Replaced hand-run SQL with an auditable environment-promotion workflow",
+        "Prevents an invalid or empty catalog from committing through transactional validation and guards",
+        "Avoids sharing database credentials across environments through the S3 artifact relay",
+        "Provides explicit-id rollback, including a backup of the pre-revert state",
+        "Verified non-production promotion across staging and preview environments; production workflows are wired and gated, but an end-to-end production cutover remains unverified",
       ],
-      role: "Staff Software Engineer, owning the pipeline design, the transactional cutover logic, and the promotion/rollback workflows.",
+      role: "Software Engineer, owning the transactional cutover logic, promotion and rollback workflows, and their operational safeguards.",
     },
   },
   {
@@ -102,19 +99,43 @@ export const projects: Project[] = [
     ],
     category: "work",
     period: "2026",
-    company: "Civilgrid",
+    company: "CivilGrid",
     details: {
       challenge:
-        "Sales demo orgs drift after every demo and needed a reliable reset to a known-good state. The hard part: demo data lives in the same physical tables as real customer data, so a blanket table wipe was off the table, and most foreign keys don't cascade, so deletes had to respect a ~30-table dependency graph without orphaning rows or touching other tenants.",
+        "Sales demo organizations drift after each demo and share physical tables with customer data. A table-wide wipe was unsafe, and most of the roughly 30 related tables use non-cascading foreign keys, so the reset had to restore a clean baseline without deleting another tenant's data.",
       approach:
-        "I built a reset engine that walks the reverse foreign-key graph from the org's projects, collecting rows forward then deleting child-before-parent so nothing is orphaned, then imports a re-keyed golden-image snapshot. The delete and restore run inside a single database transaction, so a failure leaves the org untouched. Around it I layered independent guards: super-admin auth, a type-to-confirm dialog, a per-environment safety marker, a server-side re-check that the target really is a demo org (under a row lock), and a concurrency guard keyed to the target org.",
+        "I built the reset and import path around a reverse foreign-key graph walk. It collects in-scope rows from the target's projects, validates parent ordering, deletes children before parents, and restores a re-keyed golden-image snapshot in the same PostgreSQL transaction. The flow is protected by super-admin authorization, type-to-confirm UI, an environment marker, a server-side demo-org check under row lock, and per-organization singleton execution. Import validation rejects stale, incomplete, or cross-organization snapshots before deletion.",
       impact: [
-        "Turned a manual, risky cleanup into a one-click, transactional reset",
-        "Safely deletes across a ~30-table foreign-key graph without orphaning rows or touching real tenants",
-        "All-or-nothing restore: a failed reset leaves the org exactly as it was",
-        "Multiple independent safety guards prevent resetting the wrong organization",
+        "Made demo cleanup an admin-triggered, all-or-nothing restore rather than a manual database operation",
+        "Deletes related rows child-before-parent while keeping the scope constrained to the selected demo organization",
+        "Keeps failures from leaving the demo partially reset by combining deletion and restoration in one transaction",
+        "Added defense in depth for a production-capable destructive operation",
+        "Resolved missing restored media and utility-history data; a later duplicate-key fix was merged to staging, while its production release status was not verified in the record",
       ],
-      role: "Staff Software Engineer, owning the delete-and-restore engine and its safety guards.",
+      role: "Software Engineer, owning the reset/import path, orchestration, safety guards, and admin UI. The golden-image export and shared foreign-key graph utility were owned by a teammate.",
+    },
+  },
+  {
+    title: "Utilities Reliability & Observability",
+    description:
+      "Made the Utilities tab fail clearly when external retries are exhausted, then added telemetry and a load-health dashboard to find slow and failing loads before they become customer reports.",
+    tags: ["TypeScript", "React", "ConnectBase", "Datadog", "Bugsnag", "PostHog"],
+    category: "work",
+    period: "2026",
+    company: "CivilGrid",
+    details: {
+      challenge:
+        "When ConnectBase retries were exhausted, a project's Utilities tab could remain in pendingExternalRetry forever and poll until timeout on every visit. The product gave users no terminal state, while operators had no way to distinguish slow loads from failed ones or spot a regression in the polling window.",
+      approach:
+        "I added client-side load telemetry that tracks the request and polling phases separately, sends slow-load and load events to PostHog, and reports failures to Bugsnag. On the job side, each retry-exhaustion path marks the project failed and reports the outcome even if the database write itself throws; intermediate attempts stay in Datadog logs instead of generating noisy alerts. I then built a PostHog dashboard for latency, slow opens, poll cycles, outcomes, and affected projects. A follow-up derives the polling attempt cap from the timeout and interval, with an invariant test that catches mismatched edits.",
+      impact: [
+        "Turns exhausted external retries into a terminal failed state rather than an endless pending loop",
+        "Separates request and polling telemetry so slow loads can be diagnosed by phase and outcome",
+        "Adds a Utilities Tab Load Health dashboard in staging and production with ten insights for latency, error rate, and affected projects",
+        "Keeps intermediate retries observable in Datadog without sending repeated Slack alerts",
+        "Prevents a polling-interval change from silently shortening the five-minute timeout window",
+      ],
+      role: "Software Engineer, implementing the terminal failure handling, telemetry, dashboard, and regression guard.",
     },
   },
   {
